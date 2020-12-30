@@ -40,6 +40,7 @@ class mainPage extends Component {
         <Appbar />
         <div id="section1" className='firstDiv'>
           <NewsCarousel />
+          <NewsCarousel></NewsCarousel>
         </div>
         <div id="section2" className='secondDiv'>
         </div>
