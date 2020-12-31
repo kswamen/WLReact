@@ -67,6 +67,8 @@ app.post("/api/posts", upload.single("image"), (req, res) => {
   let userImage = req.body.userImage;
   let params = [image, title, contents, writer, ID, userImage];
 
+  console.log(req.body.image)
+
   connection.query(sql, params, (err, rows, fields) => {
     res.send(rows);
   });

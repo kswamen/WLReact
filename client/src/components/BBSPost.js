@@ -19,6 +19,7 @@ const styles = (theme) => ({
   contentsDiv: {
     backgroundColor: "rgba(238, 230, 196, 0.7)",
     width: "70vw",
+    height: "100%",
     borderRadius: "10px",
     borderColor: "#888888",
     border: 30,
@@ -172,6 +173,7 @@ class postPage extends Component {
               >
                 이전 페이지로 이동
               </Button>
+
               <LoginContext.Consumer>
                 {({ userID }) => (
                   <>
@@ -186,15 +188,78 @@ class postPage extends Component {
                         게시글 삭제하기
                       </Button>
                     ) : (
-                      <></>
-                    )}
+                        <></>
+                      )}
                   </>
                 )}
               </LoginContext.Consumer>
             </div>
           </Container>
         </div>
-      </div>
+
+
+        <LoginContext.Consumer>
+          {({ isLoggedIn }) => (
+            <>
+              {!isLoggedIn ? (
+                ""
+              ) : (
+                  <div className={classes.contentsDiv}>
+                    <div style={{
+                      marginLeft: "15px", height: "100%", display: "flex", alignItems: "center", justifyContent: "space-between",
+                      paddingTop: '10px',
+                      paddingBottom: '10px',
+                      height: '100px',
+                    }}>
+                      <img
+                        style={{
+                          width: "6%",
+                          borderRadius: "50%",
+                          marginRight: "15px"
+                        }}
+                        src={this.state.post.userImage}
+                      />
+                      <TextField
+                        style={{
+                          width: "55vw"
+                        }}
+                        id="filled-multiline-static"
+                        label="Multiline"
+                        multiline
+                        rows={3}
+                        variant="filled"
+                        label="여기에 댓글을 입력하세요."
+                      />
+                      <div
+                        style={{
+                          display: "flex",
+                          flex: 1,
+                          height: "100px",
+                          alignItems: "center",
+                          justifyContent: "flex-end",
+                          marginRight: "15px"
+                        }}
+                      >
+                        <Button
+                          variant="outlined"
+                          color="default"
+                          style={{
+                            padding: '15px',
+                            height: '70%'
+                          }}
+                        >
+                          댓글 쓰기
+                        </Button>
+
+                      </div>
+                    </div>
+                  </div >
+                )}
+
+            </>
+          )}
+        </LoginContext.Consumer>
+      </div >
     );
   }
 }

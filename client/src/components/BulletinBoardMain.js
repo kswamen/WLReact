@@ -199,10 +199,10 @@ class BulletinBoardMain extends React.Component {
               <TableBody>
                 {(this.state.rowsPerPage > 0
                   ? this.state.posts.slice(
-                      this.state.page * this.state.rowsPerPage,
-                      this.state.page * this.state.rowsPerPage +
-                        this.state.rowsPerPage
-                    )
+                    this.state.page * this.state.rowsPerPage,
+                    this.state.page * this.state.rowsPerPage +
+                    this.state.rowsPerPage
+                  )
                   : this.state.posts
                 ).map((row) => (
                   <StyledTableRow
@@ -217,9 +217,7 @@ class BulletinBoardMain extends React.Component {
                     <StyledTableCell align="center">
                       <img
                         style={{
-                          maxWidth: "200px",
-                          height: "auto",
-                          maxHeight: "500px",
+                          maxHeight: "15vh",
                         }}
                         src={row.image}
                       />
@@ -254,18 +252,18 @@ class BulletinBoardMain extends React.Component {
                   {!isLoggedIn ? (
                     ""
                   ) : (
-                    <Button
-                      href="/createPostPage"
-                      style={{
-                        backgroundColor: "rgba(100,0,100,0.6)",
-                        position: "relative",
-                        width: "10vw",
-                        marginRight: "20px",
-                      }}
-                    >
-                      <h3 style={{ margin: "5px" }}>신규 게시글 작성</h3>
-                    </Button>
-                  )}
+                      <Button
+                        href="/createPostPage"
+                        style={{
+                          backgroundColor: "rgba(100,0,100,0.6)",
+                          position: "relative",
+                          width: "10vw",
+                          marginRight: "20px",
+                        }}
+                      >
+                        <h3 style={{ margin: "5px" }}>신규 게시글 작성</h3>
+                      </Button>
+                    )}
                 </>
               )}
             </LoginContext.Consumer>

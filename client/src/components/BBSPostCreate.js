@@ -41,36 +41,6 @@ class BBSPostCreate extends Component {
     this.setPosts = this.setPosts.bind(this);
   }
 
-  modules = {
-    // #3 Add "image" to the toolbar
-    toolbar: [["bold", "italic", "image"]],
-    // # 4 Add module and upload function
-    imageUploader: {
-      upload: (file) => {
-        return new Promise((resolve, reject) => {
-          const formData = new FormData();
-          formData.append("image", file);
-
-          fetch(
-            "https://api.imgbb.com/1/upload?key=d36eb6591370ae7f9089d85875e56b22",
-            {
-              method: "POST",
-              body: formData,
-            }
-          )
-            .then((response) => response.json())
-            .then((result) => {
-              resolve(result.data.url);
-            })
-            .catch((error) => {
-              reject("Upload failed");
-              console.error("Error:", error);
-            });
-        });
-      },
-    },
-  };
-
   handleFormSubmit = () => {
     this.setPosts();
     if (this.state.title != "" && this.state.isLoggedIn != false) {
@@ -197,9 +167,9 @@ class BBSPostCreate extends Component {
               <div style={{ display: "none" }}>
                 {
                   ((this.state.isLoggedIn = isLoggedIn),
-                  (this.state.userName = userName),
-                  (this.state.userID = userID),
-                  (this.state.userImageSrc = userImageSrc))
+                    (this.state.userName = userName),
+                    (this.state.userID = userID),
+                    (this.state.userImageSrc = userImageSrc))
                 }
               </div>
             )}
