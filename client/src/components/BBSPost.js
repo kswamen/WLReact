@@ -12,6 +12,8 @@ import bg1 from "../image/bg1.jpeg";
 import titleBg from "../image/title.png";
 import Button from "@material-ui/core/Button";
 import { LoginContext } from "./LoginContext";
+import DeleteIcon from '@material-ui/icons/Delete';
+import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 
 import "../css/BBSPost.css";
 
@@ -28,6 +30,9 @@ const styles = (theme) => ({
   resize: {
     fontSize: 24,
   },
+  multilineColor: {
+    color: 'black'
+  },
 });
 
 class postPage extends Component {
@@ -36,7 +41,14 @@ class postPage extends Component {
     this.state = {
       AppbarHeight: 0,
       post: "",
+      comment: [],
     };
+
+    this.addComment = this.addComment.bind(this);
+    this.getPosts = this.getPosts.bind(this);
+    this.getComments = this.getComments.bind(this);
+    this.delPost = this.delPost.bind(this);
+    this.refreshComment = this.refreshComment.bind(this);
   }
 
   componentDidMount() {
@@ -45,9 +57,15 @@ class postPage extends Component {
     });
     this.getPosts()
       .then((res) => {
-        console.log(res[0]);
         this.setState({
           post: res[0],
+        });
+      })
+      .catch((err) => console.log(err));
+    this.getComments()
+      .then((res) => {
+        this.setState({
+          comment: res,
         });
       })
       .catch((err) => console.log(err));
@@ -59,12 +77,50 @@ class postPage extends Component {
     return body;
   };
 
+  getComments = async () => {
+    const response = await fetch("/api/getComment/" + this.props.postNum);
+    const body = await response.json();
+    return body;
+  }
+
   delPost = () => {
     const url = "/api/deletePost/" + this.props.postNum;
     fetch(url, {
       method: "DELETE",
     });
   };
+
+  addComment = () => {
+    const url = "/api/addComment/";
+    const formData = new FormData();
+
+    formData.append("writer", this.state.post.writer)
+    console.log(formData)
+    formData.append("ID", this.state.post.ID)
+    formData.append("userImage", this.state.post.userImage)
+    formData.append("postNum", this.state.post.num)
+    formData.append("content", document.getElementById("commentContent").value);
+
+    const config = {
+      headers: {
+        "content-type": "multipart/form-data",
+      },
+    };
+    post(url, formData, config).then(() => {
+      this.refreshComment()
+    });
+  };
+
+  refreshComment = () => {
+    this.state.comment = []
+    this.getComments()
+      .then((res) => {
+        this.setState({
+          comment: res,
+        });
+      })
+      .catch((err) => console.log(err));
+  }
 
   render() {
     const { classes } = this.props;
@@ -199,7 +255,7 @@ class postPage extends Component {
 
 
         <LoginContext.Consumer>
-          {({ isLoggedIn }) => (
+          {({ isLoggedIn, userName, userImageSrc, userID }) => (
             <>
               {!isLoggedIn ? (
                 ""
@@ -223,7 +279,7 @@ class postPage extends Component {
                         style={{
                           width: "55vw"
                         }}
-                        id="filled-multiline-static"
+                        id="commentContent"
                         label="Multiline"
                         multiline
                         rows={3}
@@ -247,18 +303,99 @@ class postPage extends Component {
                             padding: '15px',
                             height: '70%'
                           }}
+                          onClick={this.addComment}
                         >
                           댓글 쓰기
                         </Button>
-
                       </div>
                     </div>
                   </div >
                 )}
-
             </>
           )}
         </LoginContext.Consumer>
+
+
+        <div className={classes.contentsDiv}>
+          <Container
+            style={{
+              display: "flex",
+              alignItems: "center",
+              marginTop: "15px",
+              marginBottom: "15px",
+              justifyContent: "center",
+            }}>
+            <div
+              style={{
+                marginLeft: "15px",
+                marginRight: "15px",
+                position: "relative",
+                display: "flex",
+                flexDirection: "column",
+                maxWidth: "85vw",
+                width: "100%",
+                backgroundColor: "rgba(200, 200, 200, 0.8)",
+                borderRadius: "15px",
+                padding: "30px",
+                marginTop: "15px",
+                marginBottom: "15px",
+              }}
+            >
+              {this.state.comment.map((row) => (
+                <div style={{
+                  display: "flex", alignItems: "center", marginBottom: "15px", backgroundColor: "rgba(150, 150, 150, 0.8)",
+                  borderRadius: "15px", padding: "5px", justifyContent: "space-between", height: "120px",
+                }}>
+                  <div style={{ flex: 7, display: "flex", alignItems: "center" }}>
+                    <img style={{ borderRadius: "50%", height: "50px", marginLeft: "10px", marginRight: "10px" }} src={row.userImage}></img>
+                    <TextField
+                      disabled
+                      style={{
+                        width: "50vw"
+                      }}
+                      id="outlined-multiline-static"
+                      label={row.writer}
+                      multiline
+                      rows={4}
+                      defaultValue={row.content}
+                      variant="outlined"
+                      InputProps={{
+                        classes: {
+                          input: classes.multilineColor
+                        }
+                      }}
+                    />
+                  </div>
+                  <div style={{ marginLeft: "10px", marginRight: "10px", height: "100%", display: "flex", flexDirection: "column", justifyContent: "space-around", alignItems: "center" }}>
+                    <Button variant="contained"
+                      color="primary"
+                      startIcon={<CloudUploadIcon />} style={{ height: "40" }}>
+                      댓글 달기
+                    </Button>
+                    <LoginContext.Consumer>
+                      {({ isLoggedIn, userID }) => (
+                        <>
+                          {(!isLoggedIn || (userID != row.ID)) ? (
+                            ""
+                          ) : (
+                              <Button variant="contained"
+                                color="secondary"
+                                startIcon={<DeleteIcon />} style={{ height: "40" }}>
+                                삭제하기
+                                
+                              </Button>
+                            )}
+                        </>
+                      )
+                      }
+                    </LoginContext.Consumer>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </Container>
+        </div>
+
       </div >
     );
   }
