@@ -46,8 +46,8 @@ app.get("/api/getPost/:postNum", (req, res) => {
 });
 
 app.get("/api/getComment/:postNum", (req, res) => {
-  let sql = "Select * from comments where postNum = ?";
-  let params = [req.params.postNum];
+  let sql = "Select * from comments where postNum = ? and isDeleted = ? order by date desc";
+  let params = [req.params.postNum, 0];
 
   connection.query(sql, params, (err, rows, fields) => {
     res.send(rows);
@@ -57,6 +57,14 @@ app.get("/api/getComment/:postNum", (req, res) => {
 app.delete("/api/deletePost/:postNum", (req, res) => {
   let sql = "update posts set isDeleted = 1 where num = ?";
   let params = [req.params.postNum];
+  connection.query(sql, params, (err, rows, fields) => {
+    res.send(rows);
+  });
+});
+
+app.delete("/api/deleteComment/:commentNum", (req, res) => {
+  let sql = "update comments set isDeleted = 1 where num = ?";
+  let params = [req.params.commentNum];
   connection.query(sql, params, (err, rows, fields) => {
     res.send(rows);
   });

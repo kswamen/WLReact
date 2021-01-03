@@ -15,6 +15,14 @@ import { LoginContext } from "./LoginContext";
 import DeleteIcon from '@material-ui/icons/Delete';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 
+import Dialog from "@material-ui/core/Dialog";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogActions from "@material-ui/core/DialogActions";
+
+import Moment from "react-moment";
+
+
 import "../css/BBSPost.css";
 
 const styles = (theme) => ({
@@ -49,6 +57,7 @@ class postPage extends Component {
     this.getComments = this.getComments.bind(this);
     this.delPost = this.delPost.bind(this);
     this.refreshComment = this.refreshComment.bind(this);
+    this.delComment = this.delComment.bind(this);
   }
 
   componentDidMount() {
@@ -90,7 +99,17 @@ class postPage extends Component {
     });
   };
 
-  addComment = () => {
+  delComment = (commentNum) => {
+    const url = "/api/deleteComment/" + commentNum;
+    fetch(url, {
+      method: "DELETE",
+    }).then(() => {
+      this.refreshComment()
+    });
+  }
+
+  addComment = (e) => {
+    e.preventDefault()
     const url = "/api/addComment/";
     const formData = new FormData();
 
@@ -100,6 +119,8 @@ class postPage extends Component {
     formData.append("userImage", this.state.post.userImage)
     formData.append("postNum", this.state.post.num)
     formData.append("content", document.getElementById("commentContent").value);
+
+    document.getElementById("commentContent").value = '';
 
     const config = {
       headers: {
@@ -115,6 +136,7 @@ class postPage extends Component {
     this.state.comment = []
     this.getComments()
       .then((res) => {
+        console.log(res)
         this.setState({
           comment: res,
         });
@@ -135,104 +157,105 @@ class postPage extends Component {
           top: this.state.AppbarHeight + 30,
         }}
       >
-        <div className={classes.contentsDiv}>
-          <Container
-            style={{
-              display: "flex",
-              alignItems: "center",
-              marginTop: "15px",
-              marginBottom: "15px",
-              justifyContent: "center",
-            }}
-          >
-            <Paper
-              style={{
-                backgroundImage: "url(" + titleBg + ")",
-                backgroundColor: "transparent",
-                backgroundPosition: "center",
-                backgroundSize: "cover",
-                backgroundRepeat: "no-repeat",
-                width: "100%",
-                display: "flex",
-                justifyContent: "center",
-              }}
-            >
-              <Typography
-                variant="h4"
-                gutterBottom
-                style={{ color: "#c0c0c0" }}
-              >
-                {this.state.post.title}
+        <LoginContext.Consumer>
+          {({ isLoggedIn, userName, userImageSrc, userID }) => (
+            <>
+              <div className={classes.contentsDiv}>
+                <Container
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    marginTop: "15px",
+                    marginBottom: "15px",
+                    justifyContent: "center",
+                  }}
+                >
+                  <Paper
+                    style={{
+                      backgroundImage: "url(" + titleBg + ")",
+                      backgroundColor: "transparent",
+                      backgroundPosition: "center",
+                      backgroundSize: "cover",
+                      backgroundRepeat: "no-repeat",
+                      width: "100%",
+                      display: "flex",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <Typography
+                      variant="h4"
+                      gutterBottom
+                      style={{ color: "#c0c0c0" }}
+                    >
+                      {this.state.post.title}
+                    </Typography>
+                  </Paper>
+                </Container>
+              </div>
+              <div className={classes.contentsDiv}>
+                <div
+                  style={{
+                    marginLeft: "30px",
+                    marginRight: "30px",
+                    position: "relative",
+                    display: "block",
+                    maxWidth: "85vw",
+                    backgroundColor: "rgba(200, 200, 200, 0.8)",
+                    borderRadius: "15px",
+                    padding: "30px",
+                    marginTop: "30px",
+                    marginBottom: "30px",
+                  }}
+                  dangerouslySetInnerHTML={{ __html: this.state.post.contents }}
+                ></div>
+              </div>
+              <div className={classes.contentsDiv}>
+                <Container
+                  style={{
+                    display: "flex",
+                    height: "10vh",
+                  }}
+                >
+                  <div
+                    style={{
+                      display: "flex",
+                      flex: 1,
+                      height: "100%",
+                      alignItems: "center",
+                    }}
+                  >
+                    <img
+                      style={{
+                        height: "55%",
+                        borderRadius: "50%",
+                        marginRight: "10px",
+                      }}
+                      src={this.state.post.userImage}
+                    />
+                    <Typography variant="h5">{this.state.post.writer}</Typography>
+                    <Typography variant="h6">
+                      &nbsp; 님이 작성한 게시글입니다.
               </Typography>
-            </Paper>
-          </Container>
-        </div>
-        <div className={classes.contentsDiv}>
-          <div
-            style={{
-              marginLeft: "30px",
-              marginRight: "30px",
-              position: "relative",
-              display: "block",
-              maxWidth: "85vw",
-              backgroundColor: "rgba(200, 200, 200, 0.8)",
-              borderRadius: "15px",
-              padding: "30px",
-              marginTop: "30px",
-              marginBottom: "30px",
-            }}
-            dangerouslySetInnerHTML={{ __html: this.state.post.contents }}
-          ></div>
-        </div>
-        <div className={classes.contentsDiv}>
-          <Container
-            style={{
-              display: "flex",
-              height: "10vh",
-            }}
-          >
-            <div
-              style={{
-                display: "flex",
-                flex: 1,
-                height: "100%",
-                alignItems: "center",
-              }}
-            >
-              <img
-                style={{
-                  height: "55%",
-                  borderRadius: "50%",
-                  marginRight: "10px",
-                }}
-                src={this.state.post.userImage}
-              />
-              <Typography variant="h5">{this.state.post.writer}</Typography>
-              <Typography variant="h6">
-                &nbsp; 님이 작성한 게시글입니다.
-              </Typography>
-            </div>
-            <div
-              style={{
-                display: "flex",
-                flex: 1,
-                height: "100%",
-                alignItems: "center",
-                justifyContent: "flex-end",
-              }}
-            >
-              <Button
-                href="/BBS"
-                style={{ height: "70%", marginRight: "15px" }}
-                variant="outlined"
-                color="secondary"
-              >
-                이전 페이지로 이동
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      flex: 1,
+                      height: "100%",
+                      alignItems: "center",
+                      justifyContent: "flex-end",
+                    }}
+                  >
+                    <Button
+                      href="/BBS"
+                      style={{ height: "70%", marginRight: "15px" }}
+                      variant="outlined"
+                      color="secondary"
+                    >
+                      이전 페이지로 이동
               </Button>
 
-              <LoginContext.Consumer>
-                {({ userID }) => (
-                  <>
+
                     {this.state.post.ID == userID ? (
                       <Button
                         style={{ height: "70%" }}
@@ -246,17 +269,11 @@ class postPage extends Component {
                     ) : (
                         <></>
                       )}
-                  </>
-                )}
-              </LoginContext.Consumer>
-            </div>
-          </Container>
-        </div>
 
+                  </div>
+                </Container>
+              </div>
 
-        <LoginContext.Consumer>
-          {({ isLoggedIn, userName, userImageSrc, userID }) => (
-            <>
               {!isLoggedIn ? (
                 ""
               ) : (
@@ -306,96 +323,91 @@ class postPage extends Component {
                           onClick={this.addComment}
                         >
                           댓글 쓰기
-                        </Button>
+                  </Button>
                       </div>
                     </div>
                   </div >
                 )}
-            </>
-          )}
-        </LoginContext.Consumer>
 
+              <div className={classes.contentsDiv}>
+                <Container
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    marginTop: "15px",
+                    marginBottom: "15px",
+                    justifyContent: "center",
+                  }}>
+                  <div
+                    style={{
+                      marginLeft: "15px",
+                      marginRight: "15px",
+                      position: "relative",
+                      display: "flex",
+                      flexDirection: "column",
+                      maxWidth: "85vw",
+                      width: "100%",
+                      backgroundColor: "rgba(200, 200, 200, 0.8)",
+                      borderRadius: "15px",
+                      padding: "30px",
+                      marginTop: "15px",
+                      marginBottom: "15px",
+                    }}
+                  >
+                    {this.state.comment.map((row) => (
+                      <div style={{
+                        display: "flex", alignItems: "center", marginBottom: "15px", backgroundColor: "rgba(150, 150, 150, 0.8)",
+                        borderRadius: "15px", padding: "5px", justifyContent: "space-between", height: "140px",
+                      }}>
+                        <div style={{ flex: 7, display: "flex", alignItems: "center" }}>
+                          <img style={{ borderRadius: "50%", height: "50px", marginLeft: "10px", marginRight: "10px" }} src={row.userImage}></img>
+                          <TextField
+                            disabled
+                            style={{
+                              width: "50vw"
+                            }}
+                            id="outlined-multiline-static"
+                            label={row.writer}
+                            multiline
+                            rows={4}
+                            value={row.content}
+                            variant="outlined"
+                            InputProps={{
+                              classes: {
+                                input: classes.multilineColor
+                              }
+                            }}
+                            helperText={"Written on " + row.date}
+                          />
 
-        <div className={classes.contentsDiv}>
-          <Container
-            style={{
-              display: "flex",
-              alignItems: "center",
-              marginTop: "15px",
-              marginBottom: "15px",
-              justifyContent: "center",
-            }}>
-            <div
-              style={{
-                marginLeft: "15px",
-                marginRight: "15px",
-                position: "relative",
-                display: "flex",
-                flexDirection: "column",
-                maxWidth: "85vw",
-                width: "100%",
-                backgroundColor: "rgba(200, 200, 200, 0.8)",
-                borderRadius: "15px",
-                padding: "30px",
-                marginTop: "15px",
-                marginBottom: "15px",
-              }}
-            >
-              {this.state.comment.map((row) => (
-                <div style={{
-                  display: "flex", alignItems: "center", marginBottom: "15px", backgroundColor: "rgba(150, 150, 150, 0.8)",
-                  borderRadius: "15px", padding: "5px", justifyContent: "space-between", height: "120px",
-                }}>
-                  <div style={{ flex: 7, display: "flex", alignItems: "center" }}>
-                    <img style={{ borderRadius: "50%", height: "50px", marginLeft: "10px", marginRight: "10px" }} src={row.userImage}></img>
-                    <TextField
-                      disabled
-                      style={{
-                        width: "50vw"
-                      }}
-                      id="outlined-multiline-static"
-                      label={row.writer}
-                      multiline
-                      rows={4}
-                      defaultValue={row.content}
-                      variant="outlined"
-                      InputProps={{
-                        classes: {
-                          input: classes.multilineColor
-                        }
-                      }}
-                    />
-                  </div>
-                  <div style={{ marginLeft: "10px", marginRight: "10px", height: "100%", display: "flex", flexDirection: "column", justifyContent: "space-around", alignItems: "center" }}>
-                    <Button variant="contained"
-                      color="primary"
-                      startIcon={<CloudUploadIcon />} style={{ height: "40" }}>
-                      댓글 달기
+                        </div>
+                        <div style={{ marginLeft: "10px", marginRight: "10px", height: "100%", display: "flex", flexDirection: "column", justifyContent: "space-around", alignItems: "center" }}>
+                          <Button variant="contained"
+                            color="primary"
+                            startIcon={<CloudUploadIcon />} style={{ height: "60px" }}>
+                            댓글 달기
                     </Button>
-                    <LoginContext.Consumer>
-                      {({ isLoggedIn, userID }) => (
-                        <>
+
                           {(!isLoggedIn || (userID != row.ID)) ? (
                             ""
                           ) : (
                               <Button variant="contained"
                                 color="secondary"
-                                startIcon={<DeleteIcon />} style={{ height: "40" }}>
+                                onClick={(e) => { e.preventDefault(); this.delComment(row.num) }}
+                                startIcon={<DeleteIcon />} style={{ height: "60px" }}>
                                 삭제하기
-                                
                               </Button>
                             )}
-                        </>
-                      )
-                      }
-                    </LoginContext.Consumer>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </Container>
-        </div>
 
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </Container>
+              </div>
+            </>
+          )}
+        </LoginContext.Consumer>
       </div >
     );
   }
