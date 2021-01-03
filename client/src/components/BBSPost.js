@@ -3,7 +3,6 @@ import { withStyles } from "@material-ui/core/styles";
 import { post } from "axios";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import AppbarBBS from "../components/AppbarBBS";
 import Container from "@material-ui/core/Container";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
@@ -26,18 +25,6 @@ import Moment from "react-moment";
 import "../css/BBSPost.css";
 
 const styles = (theme) => ({
-  contentsDiv: {
-    backgroundColor: "rgba(238, 230, 196, 0.7)",
-    width: "70vw",
-    height: "100%",
-    borderRadius: "10px",
-    borderColor: "#888888",
-    border: 30,
-    marginBottom: "10px",
-  },
-  resize: {
-    fontSize: 24,
-  },
   multilineColor: {
     color: 'black'
   },
@@ -61,8 +48,9 @@ class postPage extends Component {
   }
 
   componentDidMount() {
+    console.log(window.location.href)
     this.setState({
-      AppbarHeight: document.getElementById("Appbar-bbs").clientHeight,
+      AppbarHeight: document.getElementById("Appbar").clientHeight,
     });
     this.getPosts()
       .then((res) => {
@@ -149,37 +137,22 @@ class postPage extends Component {
 
     return (
       <div
+        className='frameDiv'
         style={{
-          display: "flex",
-          alignItems: "center",
-          flexDirection: "column",
-          position: "relative",
           top: this.state.AppbarHeight + 30,
         }}
       >
         <LoginContext.Consumer>
           {({ isLoggedIn, userName, userImageSrc, userID }) => (
             <>
-              <div className={classes.contentsDiv}>
+              <div className="contentsDiv">
                 <Container
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    marginTop: "15px",
-                    marginBottom: "15px",
-                    justifyContent: "center",
-                  }}
+                  className='postContainer'
                 >
                   <Paper
+                    className="titlePaper"
                     style={{
-                      backgroundImage: "url(" + titleBg + ")",
-                      backgroundColor: "transparent",
-                      backgroundPosition: "center",
-                      backgroundSize: "cover",
-                      backgroundRepeat: "no-repeat",
-                      width: "100%",
-                      display: "flex",
-                      justifyContent: "center",
+                      backgroundColor: 'transparent'
                     }}
                   >
                     <Typography
@@ -192,24 +165,13 @@ class postPage extends Component {
                   </Paper>
                 </Container>
               </div>
-              <div className={classes.contentsDiv}>
+              <div className="contentsDiv">
                 <div
-                  style={{
-                    marginLeft: "30px",
-                    marginRight: "30px",
-                    position: "relative",
-                    display: "block",
-                    maxWidth: "85vw",
-                    backgroundColor: "rgba(200, 200, 200, 0.8)",
-                    borderRadius: "15px",
-                    padding: "30px",
-                    marginTop: "30px",
-                    marginBottom: "30px",
-                  }}
+                  className='postDiv'
                   dangerouslySetInnerHTML={{ __html: this.state.post.contents }}
                 ></div>
               </div>
-              <div className={classes.contentsDiv}>
+              <div className="contentsDiv">
                 <Container
                   style={{
                     display: "flex",
@@ -217,12 +179,7 @@ class postPage extends Component {
                   }}
                 >
                   <div
-                    style={{
-                      display: "flex",
-                      flex: 1,
-                      height: "100%",
-                      alignItems: "center",
-                    }}
+                    className='infoDiv'
                   >
                     <img
                       style={{
@@ -235,7 +192,7 @@ class postPage extends Component {
                     <Typography variant="h5">{this.state.post.writer}</Typography>
                     <Typography variant="h6">
                       &nbsp; 님이 작성한 게시글입니다.
-              </Typography>
+                    </Typography>
                   </div>
                   <div
                     style={{
@@ -253,9 +210,7 @@ class postPage extends Component {
                       color="secondary"
                     >
                       이전 페이지로 이동
-              </Button>
-
-
+                    </Button>
                     {this.state.post.ID == userID ? (
                       <Button
                         style={{ height: "70%" }}
@@ -269,7 +224,6 @@ class postPage extends Component {
                     ) : (
                         <></>
                       )}
-
                   </div>
                 </Container>
               </div>
@@ -277,13 +231,8 @@ class postPage extends Component {
               {!isLoggedIn ? (
                 ""
               ) : (
-                  <div className={classes.contentsDiv}>
-                    <div style={{
-                      marginLeft: "15px", height: "100%", display: "flex", alignItems: "center", justifyContent: "space-between",
-                      paddingTop: '10px',
-                      paddingBottom: '10px',
-                      height: '100px',
-                    }}>
+                  <div className="contentsDiv">
+                    <div className='commentInputDiv'>
                       <img
                         style={{
                           width: "6%",
@@ -304,14 +253,7 @@ class postPage extends Component {
                         label="여기에 댓글을 입력하세요."
                       />
                       <div
-                        style={{
-                          display: "flex",
-                          flex: 1,
-                          height: "100px",
-                          alignItems: "center",
-                          justifyContent: "flex-end",
-                          marginRight: "15px"
-                        }}
+                        className='commentInputButtonDiv'
                       >
                         <Button
                           variant="outlined"
@@ -323,13 +265,13 @@ class postPage extends Component {
                           onClick={this.addComment}
                         >
                           댓글 쓰기
-                  </Button>
+                        </Button>
                       </div>
                     </div>
                   </div >
                 )}
 
-              <div className={classes.contentsDiv}>
+              <div className="contentsDiv">
                 <Container
                   style={{
                     display: "flex",
@@ -386,7 +328,7 @@ class postPage extends Component {
                             color="primary"
                             startIcon={<CloudUploadIcon />} style={{ height: "60px" }}>
                             댓글 달기
-                    </Button>
+                          </Button>
 
                           {(!isLoggedIn || (userID != row.ID)) ? (
                             ""

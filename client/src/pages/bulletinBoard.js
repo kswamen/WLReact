@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { withStyles } from "@material-ui/core/styles";
 import NewsCarousel from "../components/NewsCarousel";
 import bg1 from "../image/bg1.jpeg";
-import AppbarBBS from "../components/AppbarBBS";
+import Appbar from "../components/Appbar";
 import BulletinBoardMain from "../components/BulletinBoardMain";
 
 const styles = (theme) => ({
@@ -26,7 +26,7 @@ class bulletinBoard extends Component {
 
   componentDidMount() {
     this.setState({
-      AppbarHeight: document.getElementById("Appbar-bbs").clientHeight,
+      AppbarHeight: document.getElementById("Appbar").clientHeight,
     });
   }
 
@@ -34,7 +34,7 @@ class bulletinBoard extends Component {
     const { classes } = this.props;
     return (
       <>
-        <AppbarBBS />
+        <Appbar />
         <div id="section1" className={classes.firstDiv}>
           <BulletinBoardMain AppbarHeight={this.state.AppbarHeight} />
         </div>

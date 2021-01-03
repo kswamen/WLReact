@@ -52,9 +52,6 @@ class mainPage extends Component {
           <NewsCarousel />
         </div>
         <div id="section2" className='secondDiv'>
-          <Button
-            onPress={this.handleFileOnChange}
-          >{'123124124124124'}</Button>
         </div>
         <div id="section3" className='thirdDiv'>
         </div>

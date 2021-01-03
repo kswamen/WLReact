@@ -35,8 +35,9 @@ class Appbar extends React.Component {
     return (
       <div className={classes.root}>
         <AppBar
+          id="Appbar"
           position="fixed"
-          style={{ backgroundColor: "rgba( 52, 52, 52, 0.8)", display: "flex", height: '10vh' }}
+          style={{ backgroundColor: "rgba( 52, 52, 52, 0.8)", display: "flex", height: '80px' }}
         >
           <Toolbar>
             <div
@@ -75,81 +76,86 @@ class Appbar extends React.Component {
                   </Typography>
                 </IconButton>
               </div>
-              <div
-                style={{
-                  width: "50vw",
-                  display: "flex",
-                  position: "relative",
-                  justifyContent: "flex-end",
-                  flexDirection: "row",
-                  marginLeft: "auto",
-                }}
-              >
-                <Button color="default">
-                  <ScrollLink
-                    activeClass="active"
-                    to="section1"
-                    spy={true}
-                    smooth={true}
-                    duration={500}
-                  >
-                    <Typography
-                      style={{ color: "#ffffff", padding: "15px" }}
-                      variant="h5"
-                    >
-                      News
-                    </Typography>
-                  </ScrollLink>
-                </Button>
-                <Button color="default">
-                  <ScrollLink
-                    activeClass="active"
-                    to="section2"
-                    spy={true}
-                    smooth={true}
-                    duration={500}
-                  >
-                    <Typography
-                      style={{ color: "#ffffff", padding: "15px" }}
-                      variant="h5"
-                    >
-                      Products
-                    </Typography>
-                  </ScrollLink>
-                </Button>
-                <Button color="default">
-                  <ScrollLink
-                    activeClass="active"
-                    to="section3"
-                    spy={true}
-                    smooth={true}
-                    duration={500}
-                  >
-                    <Typography
-                      style={{
-                        color: "#ffffff",
-                        padding: "15px",
-                      }}
-                      variant="h5"
-                    >
-                      Total Patients
-                    </Typography>
-                  </ScrollLink>
-                </Button>
-
-                <Button href="/BBS" color="default">
-                  <Typography
+              {
+                window.location.pathname == '/' ?
+                  <div
                     style={{
-                      color: "#50bcdf",
-                      padding: "15px",
-                      marginRight: "15px",
+                      width: "50vw",
+                      display: "flex",
+                      position: "relative",
+                      justifyContent: "flex-end",
+                      flexDirection: "row",
+                      marginLeft: "auto",
                     }}
-                    variant="h5"
                   >
-                    Bulletin Board
+                    <Button color="default">
+                      <ScrollLink
+                        activeClass="active"
+                        to="section1"
+                        spy={true}
+                        smooth={true}
+                        duration={500}
+                      >
+                        <Typography
+                          style={{ color: "#ffffff", padding: "15px" }}
+                          variant="h5"
+                        >
+                          News
+                    </Typography>
+                      </ScrollLink>
+                    </Button>
+                    <Button color="default">
+                      <ScrollLink
+                        activeClass="active"
+                        to="section2"
+                        spy={true}
+                        smooth={true}
+                        duration={500}
+                      >
+                        <Typography
+                          style={{ color: "#ffffff", padding: "15px" }}
+                          variant="h5"
+                        >
+                          Products
+                    </Typography>
+                      </ScrollLink>
+                    </Button>
+                    <Button color="default">
+                      <ScrollLink
+                        activeClass="active"
+                        to="section3"
+                        spy={true}
+                        smooth={true}
+                        duration={500}
+                      >
+                        <Typography
+                          style={{
+                            color: "#ffffff",
+                            padding: "15px",
+                          }}
+                          variant="h5"
+                        >
+                          Total Patients
+                    </Typography>
+                      </ScrollLink>
+                    </Button>
+
+                    <Button href="/BBS" color="default">
+                      <Typography
+                        style={{
+                          color: "#50bcdf",
+                          padding: "15px",
+                          marginRight: "15px",
+                        }}
+                        variant="h5"
+                      >
+                        Bulletin Board
                   </Typography>
-                </Button>
-              </div>
+                    </Button>
+                  </div>
+                  :
+                  <> </>
+              }
               <Login />
             </div>
           </Toolbar>

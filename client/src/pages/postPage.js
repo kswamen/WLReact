@@ -4,7 +4,7 @@ import { post } from "axios";
 import ReactQuill from "react-quill";
 import BBSPost from "../components/BBSPost";
 import "react-quill/dist/quill.snow.css";
-import AppbarBBS from "../components/AppbarBBS";
+import Appbar from "../components/Appbar";
 import Container from "@material-ui/core/Container";
 import Typography from "@material-ui/core/Typography";
 import bg1 from "../image/bg1.jpeg";
@@ -24,7 +24,7 @@ class postPage extends Component {
 
   componentDidMount() {
     this.setState({
-      AppbarHeight: document.getElementById("Appbar-bbs").clientHeight,
+      AppbarHeight: document.getElementById("Appbar").clientHeight,
     });
   }
 
@@ -33,7 +33,7 @@ class postPage extends Component {
     const { params } = this.props.match;
     return (
       <>
-        <AppbarBBS />
+        <Appbar />
         <BBSPost postNum={params.postNum} />
       </>
     );

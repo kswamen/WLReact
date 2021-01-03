@@ -2,7 +2,7 @@ import React, { Component, useState } from "react";
 import { withStyles } from "@material-ui/core/styles";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import AppbarBBS from "../components/AppbarBBS";
+import Appbar from "../components/Appbar";
 import BBSPostCreate from "../components/BBSPostCreate";
 import bg1 from "../image/bg1.jpeg";
 import BulletinBoardMain from "../components/BulletinBoardMain";
@@ -29,7 +29,7 @@ class createPostPage extends Component {
 
   componentDidMount() {
     this.setState({
-      AppbarHeight: document.getElementById("Appbar-bbs").clientHeight,
+      AppbarHeight: document.getElementById("Appbar").clientHeight,
     });
   }
 
@@ -37,7 +37,7 @@ class createPostPage extends Component {
     const { classes } = this.props;
     return (
       <>
-        <AppbarBBS />
+        <Appbar />
         <div className={classes.firstDiv}>
           <BBSPostCreate
             AppbarHeight={this.state.AppbarHeight}
