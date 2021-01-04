@@ -40,6 +40,7 @@ class postPage extends Component {
 
       textValue: "",
       commentDlgOpen: false,
+      targetComment: -1,
     };
 
     this.addComment = this.addComment.bind(this);
@@ -104,6 +105,7 @@ class postPage extends Component {
   handleOpen = (commentNum) => {
     this.setState({
       commentDlgOpen: true,
+      targetComment: commentNum,
     });
   }
 
@@ -134,6 +136,7 @@ class postPage extends Component {
     };
     post(url, formData, config).then(() => {
       this.refreshComment()
+      document.getElementById("commentContent").value = ''
     });
   };
 
@@ -352,10 +355,13 @@ class postPage extends Component {
                             댓글 달기
                           </Button>
 
-                          <Dialog id='commentDlg' onClose={() => { this.handleClose() }}
+                          <Dialog id='commentDlg' onClose={() => { this.handleClose(); }}
                             open={this.state.commentDlgOpen} fullWidth={true} maxWidth='md'>
                             <DialogTitle onClose={() => { this.handleClose() }}>댓글 달기</DialogTitle>
                             <DialogContent>
+                              <Button onClick={() => { console.log(row.num); }}>
+                                {'1231241241'}
+                              </Button>
                               <TextField
                                 onChange={this.setTextValue}
                                 style={{
@@ -373,7 +379,10 @@ class postPage extends Component {
                               <Button
                                 variant="contained"
                                 color="primary"
-                                onClick={(e) => { e.preventDefault(); this.addComment(row.num); this.handleClose() }}
+                                onClick={(e) => {
+                                  e.preventDefault(); this.addComment(this.state.targetComment); this.handleClose();
+                                  console.log(row.num)
+                                }}
                               >
                                 댓글 추가
                               </Button>
