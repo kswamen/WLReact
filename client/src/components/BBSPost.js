@@ -37,6 +37,9 @@ class postPage extends Component {
       AppbarHeight: 0,
       post: "",
       comment: [],
+
+      textValue: "",
+      commentDlgOpen: false,
     };
 
     this.addComment = this.addComment.bind(this);
@@ -45,6 +48,8 @@ class postPage extends Component {
     this.delPost = this.delPost.bind(this);
     this.refreshComment = this.refreshComment.bind(this);
     this.delComment = this.delComment.bind(this);
+    this.handleClose = this.handleClose.bind(this);
+    this.handleOpen = this.handleOpen.bind(this);
   }
 
   componentDidMount() {
@@ -96,19 +101,31 @@ class postPage extends Component {
     });
   }
 
-  addComment = (e) => {
-    e.preventDefault()
+  handleOpen = (commentNum) => {
+    this.setState({
+      commentDlgOpen: true,
+    });
+  }
+
+  handleClose = () => {
+    this.setState({
+      commentDlgOpen: false,
+    });
+  }
+
+  addComment = (parentNum) => {
     const url = "/api/addComment/";
     const formData = new FormData();
 
     formData.append("writer", this.state.post.writer)
-    console.log(formData)
     formData.append("ID", this.state.post.ID)
     formData.append("userImage", this.state.post.userImage)
     formData.append("postNum", this.state.post.num)
-    formData.append("content", document.getElementById("commentContent").value);
+    formData.append("content", this.state.textValue);
 
-    document.getElementById("commentContent").value = '';
+    if (parentNum != undefined) {
+      formData.append("parentNum", parentNum);
+    }
 
     const config = {
       headers: {
@@ -119,6 +136,10 @@ class postPage extends Component {
       this.refreshComment()
     });
   };
+
+  setTextValue = (event) => {
+    this.setState({ textValue: event.target.value });
+  }
 
   refreshComment = () => {
     this.state.comment = []
@@ -242,6 +263,7 @@ class postPage extends Component {
                         src={this.state.post.userImage}
                       />
                       <TextField
+                        onChange={this.setTextValue}
                         style={{
                           width: "55vw"
                         }}
@@ -262,7 +284,7 @@ class postPage extends Component {
                             padding: '15px',
                             height: '70%'
                           }}
-                          onClick={this.addComment}
+                          onClick={(e) => { e.preventDefault(); this.addComment() }}
                         >
                           댓글 쓰기
                         </Button>
@@ -317,18 +339,53 @@ class postPage extends Component {
                             InputProps={{
                               classes: {
                                 input: classes.multilineColor
-                              }
+                              },
                             }}
                             helperText={"Written on " + row.date}
                           />
-
                         </div>
                         <div style={{ marginLeft: "10px", marginRight: "10px", height: "100%", display: "flex", flexDirection: "column", justifyContent: "space-around", alignItems: "center" }}>
                           <Button variant="contained"
                             color="primary"
+                            onClick={() => { this.handleOpen(row.num) }}
                             startIcon={<CloudUploadIcon />} style={{ height: "60px" }}>
                             댓글 달기
                           </Button>
+
+                          <Dialog id='commentDlg' onClose={() => { this.handleClose() }}
+                            open={this.state.commentDlgOpen} fullWidth={true} maxWidth='md'>
+                            <DialogTitle onClose={() => { this.handleClose() }}>댓글 달기</DialogTitle>
+                            <DialogContent>
+                              <TextField
+                                onChange={this.setTextValue}
+                                style={{
+                                  width: "100%"
+                                }}
+                                id="nestedCommentContent"
+                                label="Multiline"
+                                multiline
+                                rows={3}
+                                variant="filled"
+                                label="여기에 댓글을 입력하세요."
+                              />
+                            </DialogContent>
+                            <DialogActions>
+                              <Button
+                                variant="contained"
+                                color="primary"
+                                onClick={(e) => { e.preventDefault(); this.addComment(row.num); this.handleClose() }}
+                              >
+                                댓글 추가
+                              </Button>
+                              <Button
+                                variant="outlined"
+                                color="primary"
+                                onClick={() => { this.handleClose() }}
+                              >
+                                닫기
+                              </Button>
+                            </DialogActions>
+                          </Dialog>
 
                           {(!isLoggedIn || (userID != row.ID)) ? (
                             ""

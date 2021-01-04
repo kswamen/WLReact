@@ -46,7 +46,7 @@ app.get("/api/getPost/:postNum", (req, res) => {
 });
 
 app.get("/api/getComment/:postNum", (req, res) => {
-  let sql = "Select * from comments where postNum = ? and isDeleted = ? order by date desc";
+  let sql = "Select * from comments where postNum = ? and isDeleted = ? and parentNum is NULL order by date desc";
   let params = [req.params.postNum, 0];
 
   connection.query(sql, params, (err, rows, fields) => {
@@ -73,14 +73,20 @@ app.delete("/api/deleteComment/:commentNum", (req, res) => {
 app.use("/image", express.static("./upload"));
 
 app.post("/api/addComment", upload.single("image"), (req, res) => {
-  let sql = "insert into comments(ID, userImage, postNum, content, writer) values (?, ?, ?, ?, ?)";
+  let sql = "insert into comments(ID, userImage, postNum, content, writer, parentNum) values (?, ?, ?, ?, ?, ?)";
 
   let userImage = req.body.userImage;
   let ID = req.body.ID;
   let postNum = req.body.postNum;
   let content = req.body.content;
   let writer = req.body.writer;
-  let params = [ID, userImage, postNum, content, writer];
+  let parentNum = null;
+
+  if (req.body.parentNum != undefined) {
+    parentNum = req.body.parentNum
+  }
+
+  let params = [ID, userImage, postNum, content, writer, parentNum];
 
   connection.query(sql, params, (err, rows, fields) => {
     res.send(rows);
