@@ -44,14 +44,22 @@ class mainPage extends Component {
     }, 2000);
   }
 
+  click = () => {
+    console.log('1234')
+
+  }
+
   render() {
     return (
       <>
         <Appbar />
         <div id="section1" className='firstDiv'>
-          <NewsCarousel />
+          <Button onClick={this.click} style={{ top: "50%", maxHeight: "50px", backgroundColor: 'white' }}>
+            1234123124124124
+          </Button>
         </div>
         <div id="section2" className='secondDiv'>
+          <NewsCarousel />
         </div>
         <div id="section3" className='thirdDiv'>
         </div>

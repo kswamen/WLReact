@@ -84,6 +84,9 @@ app.post("/api/addComment", upload.single("image"), (req, res) => {
 
   if (req.body.parentNum != undefined) {
     parentNum = req.body.parentNum
+    let sql = "update comments set childCount = childCount + 1 where num = ?"
+    let params = [parentNum]
+    connection.query(sql, params)
   }
 
   let params = [ID, userImage, postNum, content, writer, parentNum];

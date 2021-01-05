@@ -324,28 +324,36 @@ class postPage extends Component {
                     {this.state.comment.map((row) => (
                       <div style={{
                         display: "flex", alignItems: "center", marginBottom: "15px", backgroundColor: "rgba(150, 150, 150, 0.8)",
-                        borderRadius: "15px", padding: "5px", justifyContent: "space-between", height: "140px",
+                        borderRadius: "15px", padding: "5px", justifyContent: "space-between", height: "160px",
                       }}>
                         <div style={{ flex: 7, display: "flex", alignItems: "center" }}>
                           <img style={{ borderRadius: "50%", height: "50px", marginLeft: "10px", marginRight: "10px" }} src={row.userImage}></img>
-                          <TextField
-                            disabled
-                            style={{
-                              width: "50vw"
-                            }}
-                            id="outlined-multiline-static"
-                            label={row.writer}
-                            multiline
-                            rows={4}
-                            value={row.content}
-                            variant="outlined"
-                            InputProps={{
-                              classes: {
-                                input: classes.multilineColor
-                              },
-                            }}
-                            helperText={"Written on " + row.date}
-                          />
+                          <div style={{
+                            display: 'flex', flexDirection: 'column', justifyContent: 'space-around', height: "100%"
+                          }}>
+                            <TextField
+                              disabled
+                              style={{
+                                width: "47vw"
+                              }}
+                              id="outlined-multiline-static"
+                              label={"Written by " + row.writer + " on " + row.date}
+                              multiline
+                              rows={4}
+                              value={row.content}
+                              variant="outlined"
+                              InputProps={{
+                                classes: {
+                                  input: classes.multilineColor
+                                },
+                              }}
+                            />
+                            {row.childCount == 0 ? <> </> :
+                              <Button style={{ alignSelf: "flex-end", justifySelf: 'flex-end' }}>
+                                {'➥ ' + row.childCount + ' 개의 댓글 열기'}
+                              </Button>
+                            }
+                          </div>
                         </div>
                         <div style={{ marginLeft: "10px", marginRight: "10px", height: "100%", display: "flex", flexDirection: "column", justifyContent: "space-around", alignItems: "center" }}>
                           <Button variant="contained"
@@ -359,9 +367,6 @@ class postPage extends Component {
                             open={this.state.commentDlgOpen} fullWidth={true} maxWidth='md'>
                             <DialogTitle onClose={() => { this.handleClose() }}>댓글 달기</DialogTitle>
                             <DialogContent>
-                              <Button onClick={() => { console.log(row.num); }}>
-                                {'1231241241'}
-                              </Button>
                               <TextField
                                 onChange={this.setTextValue}
                                 style={{
