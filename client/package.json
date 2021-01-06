@@ -24,7 +24,8 @@
     "react-slick": "^0.27.1",
     "react-swipeable-views": "^0.13.9",
     "react-typing-animation": "^1.6.2",
-    "slick-carousel": "^1.8.1"
+    "slick-carousel": "^1.8.1",
+    "use-global-hook": "0.2.1"
   },
   "scripts": {
     "start": "react-scripts start",

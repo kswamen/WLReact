@@ -23,6 +23,7 @@ class mainPage extends Component {
     super(props);
     this.state = {
       isLoading: true,
+      c: [1, 2, 3, 4]
     };
   }
 
@@ -45,8 +46,11 @@ class mainPage extends Component {
   }
 
   click = () => {
-    console.log('1234')
-
+    return (
+      <Button>
+        124124124
+      </Button>
+    )
   }
 
   render() {

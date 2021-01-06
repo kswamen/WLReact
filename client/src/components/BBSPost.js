@@ -1,6 +1,8 @@
 import React, { Component, useState } from "react";
 import { withStyles } from "@material-ui/core/styles";
 import { post } from "axios";
+import NestedCommentsButton from "./NestedCommentsButton.js"
+import NestedComments from "./NestedComments.js"
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import Container from "@material-ui/core/Container";
@@ -37,6 +39,9 @@ class postPage extends Component {
       AppbarHeight: 0,
       post: "",
       comment: [],
+      nestedComment: [],
+
+      temp: 12312412412124,
 
       textValue: "",
       commentDlgOpen: false,
@@ -54,7 +59,6 @@ class postPage extends Component {
   }
 
   componentDidMount() {
-    console.log(window.location.href)
     this.setState({
       AppbarHeight: document.getElementById("Appbar").clientHeight,
     });
@@ -83,7 +87,17 @@ class postPage extends Component {
   getComments = async () => {
     const response = await fetch("/api/getComment/" + this.props.postNum);
     const body = await response.json();
-    return body;
+
+    const new_body = body.map((row) => {
+      return { ...row, isopen: false }
+    })
+    return new_body;
+  }
+
+  getNestedComments = async (commentNum) => {
+    const response = await fetch("/api/getNestedComment/" + commentNum)
+    const body = await response.json();
+    return body
   }
 
   delPost = () => {
@@ -148,7 +162,6 @@ class postPage extends Component {
     this.state.comment = []
     this.getComments()
       .then((res) => {
-        console.log(res)
         this.setState({
           comment: res,
         });
@@ -322,96 +335,120 @@ class postPage extends Component {
                     }}
                   >
                     {this.state.comment.map((row) => (
-                      <div style={{
-                        display: "flex", alignItems: "center", marginBottom: "15px", backgroundColor: "rgba(150, 150, 150, 0.8)",
-                        borderRadius: "15px", padding: "5px", justifyContent: "space-between", height: "160px",
-                      }}>
-                        <div style={{ flex: 7, display: "flex", alignItems: "center" }}>
-                          <img style={{ borderRadius: "50%", height: "50px", marginLeft: "10px", marginRight: "10px" }} src={row.userImage}></img>
-                          <div style={{
-                            display: 'flex', flexDirection: 'column', justifyContent: 'space-around', height: "100%"
-                          }}>
-                            <TextField
-                              disabled
-                              style={{
-                                width: "47vw"
-                              }}
-                              id="outlined-multiline-static"
-                              label={"Written by " + row.writer + " on " + row.date}
-                              multiline
-                              rows={4}
-                              value={row.content}
-                              variant="outlined"
-                              InputProps={{
-                                classes: {
-                                  input: classes.multilineColor
-                                },
-                              }}
-                            />
-                            {row.childCount == 0 ? <> </> :
-                              <Button style={{ alignSelf: "flex-end", justifySelf: 'flex-end' }}>
-                                {'➥ ' + row.childCount + ' 개의 댓글 열기'}
-                              </Button>
-                            }
+                      <div>
+                        <div style={{
+                          display: "flex", alignItems: "center", marginBottom: "15px", backgroundColor: "rgba(150, 150, 150, 0.8)",
+                          borderRadius: "15px", padding: "5px", justifyContent: "space-between", height: "160px",
+                        }}>
+                          <div style={{ flex: 7, display: "flex", alignItems: "center" }}>
+                            <img style={{ borderRadius: "50%", height: "50px", marginLeft: "10px", marginRight: "10px" }} src={row.userImage}></img>
+                            <div style={{
+                              display: 'flex', flexDirection: 'column', justifyContent: 'space-around', height: "100%"
+                            }}>
+                              <TextField
+                                disabled
+                                style={{
+                                  width: "47vw"
+                                }}
+                                id="outlined-multiline-static"
+                                label={"Written by " + row.writer + " on " + row.date}
+                                multiline
+                                rows={4}
+                                value={row.content}
+                                variant="outlined"
+                                InputProps={{
+                                  classes: {
+                                    input: classes.multilineColor
+                                  },
+                                }}
+                              />
+                              {row.childCount == 0 ? <> </> :
+                                <>
+                                  <NestedCommentsButton
+                                    childCount={row.childCount}
+                                    parentComment={row.num}
+                                    isopen={row.isopen}
+                                    handleClick={() => {
+                                      let target = []
+                                      let temp = []
+                                      let i = 0
+                                      this.state.comment.map((a, index) => {
+                                        if (a.num == row.num) {
+                                          target = a
+                                          i = index
+                                        }
+                                        else temp.push(a)
+                                      })
+                                      target.isopen = !row.isopen
+                                      temp.splice(i, 0, target)
+                                      this.setState({
+                                        comment: temp
+                                      })
+                                    }} />
+                                </>
+                              }
+                            </div>
                           </div>
-                        </div>
-                        <div style={{ marginLeft: "10px", marginRight: "10px", height: "100%", display: "flex", flexDirection: "column", justifyContent: "space-around", alignItems: "center" }}>
-                          <Button variant="contained"
-                            color="primary"
-                            onClick={() => { this.handleOpen(row.num) }}
-                            startIcon={<CloudUploadIcon />} style={{ height: "60px" }}>
-                            댓글 달기
+                          <div style={{ marginLeft: "10px", marginRight: "10px", height: "100%", display: "flex", flexDirection: "column", justifyContent: "space-around", alignItems: "center" }}>
+                            <Button variant="contained"
+                              color="primary"
+                              onClick={() => { this.handleOpen(row.num) }}
+                              startIcon={<CloudUploadIcon />} style={{ height: "60px" }}>
+                              댓글 달기
                           </Button>
 
-                          <Dialog id='commentDlg' onClose={() => { this.handleClose(); }}
-                            open={this.state.commentDlgOpen} fullWidth={true} maxWidth='md'>
-                            <DialogTitle onClose={() => { this.handleClose() }}>댓글 달기</DialogTitle>
-                            <DialogContent>
-                              <TextField
-                                onChange={this.setTextValue}
-                                style={{
-                                  width: "100%"
-                                }}
-                                id="nestedCommentContent"
-                                label="Multiline"
-                                multiline
-                                rows={3}
-                                variant="filled"
-                                label="여기에 댓글을 입력하세요."
-                              />
-                            </DialogContent>
-                            <DialogActions>
-                              <Button
-                                variant="contained"
-                                color="primary"
-                                onClick={(e) => {
-                                  e.preventDefault(); this.addComment(this.state.targetComment); this.handleClose();
-                                  console.log(row.num)
-                                }}
-                              >
-                                댓글 추가
+                            <Dialog id='commentDlg' onClose={() => { this.handleClose(); }}
+                              open={this.state.commentDlgOpen} fullWidth={true} maxWidth='md'>
+                              <DialogTitle onClose={() => { this.handleClose() }}>댓글 달기</DialogTitle>
+                              <DialogContent>
+                                <TextField
+                                  onChange={this.setTextValue}
+                                  style={{
+                                    width: "100%"
+                                  }}
+                                  id="nestedCommentContent"
+                                  label="Multiline"
+                                  multiline
+                                  rows={3}
+                                  variant="filled"
+                                  label="여기에 댓글을 입력하세요."
+                                />
+                              </DialogContent>
+                              <DialogActions>
+                                <Button
+                                  variant="contained"
+                                  color="primary"
+                                  onClick={(e) => {
+                                    e.preventDefault(); this.addComment(this.state.targetComment); this.handleClose();
+                                  }}
+                                >
+                                  댓글 추가
                               </Button>
-                              <Button
-                                variant="outlined"
-                                color="primary"
-                                onClick={() => { this.handleClose() }}
-                              >
-                                닫기
+                                <Button
+                                  variant="outlined"
+                                  color="primary"
+                                  onClick={() => { this.handleClose() }}
+                                >
+                                  닫기
                               </Button>
-                            </DialogActions>
-                          </Dialog>
+                              </DialogActions>
+                            </Dialog>
 
-                          {(!isLoggedIn || (userID != row.ID)) ? (
-                            ""
-                          ) : (
-                              <Button variant="contained"
-                                color="secondary"
-                                onClick={(e) => { e.preventDefault(); this.delComment(row.num) }}
-                                startIcon={<DeleteIcon />} style={{ height: "60px" }}>
-                                삭제하기
-                              </Button>
-                            )}
+                            {(!isLoggedIn || (userID != row.ID)) ? (
+                              ""
+                            ) : (
+                                <Button variant="contained"
+                                  color="secondary"
+                                  onClick={(e) => { e.preventDefault(); this.delComment(row.num) }}
+                                  startIcon={<DeleteIcon />} style={{ height: "60px" }}>
+                                  삭제하기
+                                </Button>
+                              )}
 
+                          </div>
+                        </div>
+                        <div id={'NestedCommentDiv' + row.num}>
+                          <NestedComments parentComment={row.num} isopen={row.isopen} />
                         </div>
                       </div>
                     ))}
