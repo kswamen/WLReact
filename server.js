@@ -50,6 +50,16 @@ app.get("/api/getComment/:postNum", (req, res) => {
   let params = [req.params.postNum, 0];
 
   connection.query(sql, params, (err, rows, fields) => {
+    console.log(rows)
+    res.send(rows);
+  })
+})
+
+app.get("/api/minusCommentChild/:parentNum", (req, res) => {
+  let sql = "update comments set childCount = childCount - 1 where num = ?"
+  let params = [req.params.parentNum]
+
+  connection.query(sql, params, (err, rows, fields) => {
     res.send(rows);
   })
 })
@@ -59,7 +69,6 @@ app.get("/api/getNestedComments/:parentNum", (req, res) => {
   let params = [req.params.parentNum, 0];
 
   connection.query(sql, params, (err, rows, fields) => {
-    console.log(rows)
     res.send(rows);
   })
 })
@@ -77,7 +86,7 @@ app.delete("/api/deleteComment/:commentNum", (req, res) => {
   let params = [req.params.commentNum];
   connection.query(sql, params, (err, rows, fields) => {
     res.send(rows);
-  });
+  })
 });
 
 app.use("/image", express.static("./upload"));

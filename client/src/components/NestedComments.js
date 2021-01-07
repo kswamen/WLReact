@@ -37,7 +37,30 @@ class NestedComments extends React.Component {
             console.log(this.state.nestedComments)
 
         }).catch((err) => console.log(err))
+    }
 
+    delComment = (commentNum) => {
+        const url = "/api/deleteComment/" + commentNum;
+        fetch(url, {
+            method: "DELETE",
+        }).then((res) => {
+            console.log('delcomment at nestedcomments')
+            console.log(res)
+            this.props.minusCommentChild(this.props.parentNum);
+            this.refreshComment();
+            this.props.refreshParent();
+        });
+    }
+
+    refreshComment = () => {
+        this.state.nestedComments = []
+        this.getNestedComments()
+            .then((res) => {
+                this.setState({
+                    nestedComments: res,
+                });
+            })
+            .catch((err) => console.log(err));
     }
 
     getNestedComments = async () => {
@@ -52,13 +75,13 @@ class NestedComments extends React.Component {
         return (
             <LoginContext.Consumer>
                 {({ isLoggedIn, userName, userImageSrc, userID }) => (
-                    <div style={{}}>
+                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
                         {
                             this.state.nestedComments.map((row) => (
                                 <div style={{
                                     display: "flex", alignItems: "center", marginBottom: "15px", backgroundColor: "rgba(200, 150, 150, 0.8)",
                                     borderRadius: "15px", padding: "5px", justifyContent: "space-between",
-                                    height: "160px", justifySelf: 'flex-end', alignSelf: 'flex-end', maxWidth: "80%"
+                                    height: "160px", maxWidth: "90%"
                                 }}>
                                     <div style={{ flex: 7, display: "flex", alignItems: "center" }}>
                                         <img style={{ borderRadius: "50%", height: "50px", marginLeft: "10px", marginRight: "10px" }} src={row.userImage}></img>
@@ -68,7 +91,7 @@ class NestedComments extends React.Component {
                                             <TextField
                                                 disabled
                                                 style={{
-                                                    width: "32vw"
+                                                    width: "40vw"
                                                 }}
                                                 id="outlined-multiline-static"
                                                 label={"Written by " + row.writer + " on " + row.date}
@@ -85,12 +108,6 @@ class NestedComments extends React.Component {
                                         </div>
                                     </div>
                                     <div style={{ marginLeft: "10px", marginRight: "10px", height: "100%", display: "flex", flexDirection: "column", justifyContent: "space-around", alignItems: "center" }}>
-                                        <Button variant="contained"
-                                            color="primary"
-                                            onClick={() => { this.handleOpen(row.num) }}
-                                            startIcon={<CloudUploadIcon />} style={{ height: "60px" }}>
-                                            댓글 달기
-                            </Button>
 
                                         {(!isLoggedIn || (userID != row.ID)) ? (
                                             ""

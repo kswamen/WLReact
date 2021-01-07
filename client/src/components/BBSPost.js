@@ -106,6 +106,7 @@ class postPage extends Component {
     fetch(url, {
       method: "DELETE",
     }).then(() => {
+      console.log('delcomment at bbsPost')
       this.refreshComment()
     });
   }
@@ -147,6 +148,14 @@ class postPage extends Component {
       document.getElementById("commentContent").value = ''
     });
   };
+
+  minusCommentChild = async (parentNum) => {
+    console.log('minuscommentchild')
+
+    const response = await fetch("/api/minusCommentChild/" + parentNum);
+    const body = await response.json();
+    return body;
+  }
 
   setTextValue = (event) => {
     this.setState({ textValue: event.target.value });
@@ -383,66 +392,70 @@ class postPage extends Component {
                               }
                             </div>
                           </div>
-                          <div style={{ marginLeft: "10px", marginRight: "10px", height: "100%", display: "flex", flexDirection: "column", justifyContent: "space-around", alignItems: "center" }}>
-                            <Button variant="contained"
-                              color="primary"
-                              onClick={() => { this.handleOpen(row.num) }}
-                              startIcon={<CloudUploadIcon />} style={{ height: "60px" }}>
-                              댓글 달기
-                          </Button>
+                          {(!isLoggedIn || (userID != row.ID)) ? (
+                            ""
+                          ) : (
+                              <div style={{ marginLeft: "10px", marginRight: "10px", height: "100%", display: "flex", flexDirection: "column", justifyContent: "space-around", alignItems: "center" }}>
 
-                            <Dialog id='commentDlg' onClose={() => { this.handleClose(); }}
-                              open={this.state.commentDlgOpen} fullWidth={true} maxWidth='md'>
-                              <DialogTitle onClose={() => { this.handleClose() }}>댓글 달기</DialogTitle>
-                              <DialogContent>
-                                <TextField
-                                  onChange={this.setTextValue}
-                                  style={{
-                                    width: "100%"
-                                  }}
-                                  id="nestedCommentContent"
-                                  label="Multiline"
-                                  multiline
-                                  rows={3}
-                                  variant="filled"
-                                  label="여기에 댓글을 입력하세요."
-                                />
-                              </DialogContent>
-                              <DialogActions>
-                                <Button
-                                  variant="contained"
+                                <Button variant="contained"
                                   color="primary"
-                                  onClick={(e) => {
-                                    e.preventDefault(); this.addComment(this.state.targetComment); this.handleClose();
-                                  }}
-                                >
-                                  댓글 추가
-                              </Button>
-                                <Button
-                                  variant="outlined"
-                                  color="primary"
-                                  onClick={() => { this.handleClose() }}
-                                >
-                                  닫기
-                              </Button>
-                              </DialogActions>
-                            </Dialog>
+                                  onClick={() => { this.handleOpen(row.num) }}
+                                  startIcon={<CloudUploadIcon />} style={{ height: "60px" }}>
+                                  댓글 달기
+                                </Button>
 
-                            {(!isLoggedIn || (userID != row.ID)) ? (
-                              ""
-                            ) : (
+                                <Dialog id='commentDlg' onClose={() => { this.handleClose(); }}
+                                  open={this.state.commentDlgOpen} fullWidth={true} maxWidth='md'>
+                                  <DialogTitle onClose={() => { this.handleClose() }}>댓글 달기</DialogTitle>
+                                  <DialogContent>
+                                    <TextField
+                                      onChange={this.setTextValue}
+                                      style={{
+                                        width: "100%"
+                                      }}
+                                      id="nestedCommentContent"
+                                      label="Multiline"
+                                      multiline
+                                      rows={3}
+                                      variant="filled"
+                                      label="여기에 댓글을 입력하세요."
+                                    />
+                                  </DialogContent>
+                                  <DialogActions>
+                                    <Button
+                                      variant="contained"
+                                      color="primary"
+                                      onClick={(e) => {
+                                        e.preventDefault(); this.addComment(this.state.targetComment); this.handleClose();
+                                      }}
+                                    >
+                                      댓글 추가
+                              </Button>
+                                    <Button
+                                      variant="outlined"
+                                      color="primary"
+                                      onClick={() => { this.handleClose() }}
+                                    >
+                                      닫기
+                              </Button>
+                                  </DialogActions>
+                                </Dialog>
+
+
                                 <Button variant="contained"
                                   color="secondary"
                                   onClick={(e) => { e.preventDefault(); this.delComment(row.num) }}
                                   startIcon={<DeleteIcon />} style={{ height: "60px" }}>
                                   삭제하기
                                 </Button>
-                              )}
 
-                          </div>
+
+                              </div>
+                            )}
                         </div>
                         {row.isopen == false ? <> </> :
-                          <NestedComments parentNum={row.num} />
+                          <NestedComments parentNum={row.num} minusCommentChild={this.minusCommentChild}
+                            refreshParent={this.refreshComment} />
                         }
                       </div>
                     ))}
