@@ -94,12 +94,6 @@ class postPage extends Component {
     return new_body;
   }
 
-  getNestedComments = async (commentNum) => {
-    const response = await fetch("/api/getNestedComment/" + commentNum)
-    const body = await response.json();
-    return body
-  }
-
   delPost = () => {
     const url = "/api/deletePost/" + this.props.postNum;
     fetch(url, {
@@ -447,9 +441,9 @@ class postPage extends Component {
 
                           </div>
                         </div>
-                        <div id={'NestedCommentDiv' + row.num}>
-                          <NestedComments parentComment={row.num} isopen={row.isopen} />
-                        </div>
+                        {row.isopen == false ? <> </> :
+                          <NestedComments parentNum={row.num} />
+                        }
                       </div>
                     ))}
                   </div>

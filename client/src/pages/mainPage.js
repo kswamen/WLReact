@@ -58,12 +58,9 @@ class mainPage extends Component {
       <>
         <Appbar />
         <div id="section1" className='firstDiv'>
-          <Button onClick={this.click} style={{ top: "50%", maxHeight: "50px", backgroundColor: 'white' }}>
-            1234123124124124
-          </Button>
+          <NewsCarousel />
         </div>
         <div id="section2" className='secondDiv'>
-          <NewsCarousel />
         </div>
         <div id="section3" className='thirdDiv'>
         </div>
