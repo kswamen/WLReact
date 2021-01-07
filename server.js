@@ -46,7 +46,7 @@ app.get("/api/getPost/:postNum", (req, res) => {
 });
 
 app.get("/api/getComment/:postNum", (req, res) => {
-  let sql = "Select * from comments where postNum = ? and isDeleted = ? and parentNum is NULL order by date desc";
+  let sql = "Select * from comments where postNum = ? and isDeleted = ? and parentNum is NULL";
   let params = [req.params.postNum, 0];
 
   connection.query(sql, params, (err, rows, fields) => {
@@ -65,10 +65,11 @@ app.get("/api/minusCommentChild/:parentNum", (req, res) => {
 })
 
 app.get("/api/getNestedComments/:parentNum", (req, res) => {
-  let sql = "Select * from comments where parentNum = ? and isDeleted = ? order by date desc";
+  let sql = "Select * from comments where parentNum = ? and isDeleted = ?";
   let params = [req.params.parentNum, 0];
 
   connection.query(sql, params, (err, rows, fields) => {
+    console.log(res)
     res.send(rows);
   })
 })
