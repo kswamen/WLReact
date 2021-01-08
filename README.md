@@ -1,6 +1,6 @@
 # WLReact
 
-## React와 node.js를 사용한 간단한 웹사이트
+## Simple Website using React and node.js
 
 
 ```c
