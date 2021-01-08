@@ -1,7 +1,7 @@
 # WLReact
 
 ### 연습용으로 만든 간단한 웹사이트 예제입니다.
-###프론트로 React, 백으로 node.js DB로 MariaDB를 사용했습니다.
+### 프론트로 React, 백으로 node.js DB로 MariaDB를 사용했습니다.
 ## Simple Website using React and node.js
 
 
