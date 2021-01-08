@@ -1,0 +1,16 @@
+.quill {
+  background-color: white;
+  height: 85%;
+  width: 100%;
+  margin-top: 1.5%;
+}
+
+.ql-container {
+  background-color: white;
+}
+
+.BBSPostCreate-contentsDiv-4 {
+  border: 2px solid;
+  border-radius: 15px;
+  border-color: burlywood;
+}
