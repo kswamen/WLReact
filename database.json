@@ -1,7 +1,0 @@
-{
-  "host": "localhost",
-  "user": "root",
-  "password": "amen95",
-  "port": "3306",
-  "database": "bbs"
-}
