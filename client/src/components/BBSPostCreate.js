@@ -7,7 +7,6 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import { LoginContext } from "./LoginContext";
 import ImageUploader from "quill-image-uploader";
-import "react-quill/dist/quill.snow.css";
 import "../css/quill.css";
 
 Quill.register("modules/imageUploader", ImageUploader);
@@ -91,6 +90,55 @@ class BBSPostCreate extends Component {
     return post(url, formData, config);
   };
 
+  imageHandler = () => {
+    console.log('imagehandler')
+  }
+
+  modules = {
+    toolbar: {
+      container: [
+        ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+        [{ 'list': 'ordered' }, { 'list': 'bullet' }, { 'indent': '-1' }, { 'indent': '+1' }],
+        ['link', 'image'],
+        ['clean']
+      ],
+    },
+    imageUploader: {
+      upload: file => {
+        return new Promise((resolve, reject) => {
+          const formData = new FormData();
+          formData.append("image", file);
+
+          fetch(
+            "https://api.imgbb.com/1/upload?key=d36eb6591370ae7f9089d85875e56b22",
+            {
+              method: "POST",
+              body: formData
+            }
+          )
+            .then(response => response.json())
+            .then(result => {
+              console.log(result);
+              resolve(result.data.url);
+            })
+            .catch(error => {
+              reject("Upload failed");
+              console.error("Error:", error);
+            });
+        });
+      }
+    }
+  }
+
+
+  formats = [
+    'header',
+    'bold', 'italic', 'underline', 'strike', 'blockquote',
+    'list', 'bullet', 'indent',
+    'link', 'image'
+  ]
+
+
   render() {
     const { classes } = this.props;
     return (
@@ -132,7 +180,7 @@ class BBSPostCreate extends Component {
               //alignItems: "center",
             }}
           >
-            <ReactQuill id="content" modules={this.modules}></ReactQuill>
+            <ReactQuill id="content" modules={this.modules} format={this.formats}></ReactQuill>
           </Container>
         </div>
         <div className={classes.contentsDiv}>
