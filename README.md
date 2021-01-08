@@ -28,5 +28,6 @@ yarn dev
 ### DB 연동 : MariaDB 사용, 게시판 및 댓글과 대댓글 기능 구현
 
 
+![image](https://user-images.githubusercontent.com/47156959/104001343-dac90d00-51e2-11eb-848b-c1d1d9c7d503.png)
 
 
