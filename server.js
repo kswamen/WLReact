@@ -50,7 +50,6 @@ app.get("/api/getComment/:postNum", (req, res) => {
   let params = [req.params.postNum, 0];
 
   connection.query(sql, params, (err, rows, fields) => {
-    console.log(rows)
     res.send(rows);
   })
 })
@@ -69,7 +68,6 @@ app.get("/api/getNestedComments/:parentNum", (req, res) => {
   let params = [req.params.parentNum, 0];
 
   connection.query(sql, params, (err, rows, fields) => {
-    console.log(res)
     res.send(rows);
   })
 })
