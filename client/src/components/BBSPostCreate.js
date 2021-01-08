@@ -82,8 +82,6 @@ class BBSPostCreate extends Component {
     formData.append("ID", this.state.userID);
     formData.append("userImage", this.state.userImageSrc);
 
-    console.log(formData)
-
     const config = {
       headers: {
         "content-type": "multipart/form-data",

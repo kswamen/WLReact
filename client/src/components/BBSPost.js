@@ -105,7 +105,6 @@ class postPage extends Component {
     fetch(url, {
       method: "DELETE",
     }).then(() => {
-      console.log('delcomment at bbsPost')
       this.refreshComment()
     });
   }
@@ -149,8 +148,6 @@ class postPage extends Component {
   };
 
   minusCommentChild = async (parentNum) => {
-    console.log('minuscommentchild')
-
     const response = await fetch("/api/minusCommentChild/" + parentNum);
     const body = await response.json();
     return body;

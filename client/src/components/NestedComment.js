@@ -28,17 +28,12 @@ class NestedComment extends React.Component {
         }
     }
 
-    componentDidMount() {
-        console.log(this.props.data)
-    }
 
     delComment = (commentNum) => {
         const url = "/api/deleteComment/" + commentNum;
         fetch(url, {
             method: "DELETE",
         }).then((res) => {
-            console.log('delcomment at nestedcomments')
-            console.log(res)
             this.props.minusCommentChild(this.props.parentNum);
             this.props.refreshParent();
             this.props.refreshNestedComment();

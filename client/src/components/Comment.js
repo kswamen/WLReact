@@ -43,7 +43,6 @@ class Comment extends React.Component {
             this.setState({
                 nestedComments: res
             });
-            console.log(this.state.nestedComments)
 
         }).catch((err) => console.log(err))
     }
@@ -53,8 +52,6 @@ class Comment extends React.Component {
         fetch(url, {
             method: "DELETE",
         }).then((res) => {
-            console.log('delcomment at nestedcomments')
-            console.log(res)
             this.props.minusCommentChild(this.props.parentNum);
             this.props.refreshComment();
             this.props.refreshParent();
@@ -76,7 +73,6 @@ class Comment extends React.Component {
     }
 
     minusCommentChild = async (parentNum) => {
-        console.log('minuscommentchild')
 
         const response = await fetch("/api/minusCommentChild/" + parentNum);
         const body = await response.json();
@@ -139,13 +135,11 @@ class Comment extends React.Component {
         fetch(url, {
             method: "DELETE",
         }).then(() => {
-            console.log('delcomment at bbsPost')
             this.props.refreshComment()
         });
     }
 
     getNestedComments = async () => {
-        console.log(this.props.data.num)
         const response = await fetch("/api/getNestedComments/" + this.props.data.num);
         const body = await response.json();
         return body;
