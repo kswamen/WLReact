@@ -31,6 +31,7 @@ const styles = (theme) => ({
   },
 });
 
+
 class postPage extends Component {
   constructor(props) {
     super(props);
@@ -123,12 +124,13 @@ class postPage extends Component {
   }
 
   addComment = (parentNum) => {
+    let context = this.context;
     const url = "/api/addComment/";
     const formData = new FormData();
 
-    formData.append("writer", this.state.post.writer)
-    formData.append("ID", this.state.post.ID)
-    formData.append("userImage", this.state.post.userImage)
+    formData.append("writer", context.userName)
+    formData.append("ID", context.userID)
+    formData.append("userImage", context.userImageSrc)
     formData.append("postNum", this.state.post.num)
     formData.append("content", this.state.textValue);
 
@@ -275,7 +277,7 @@ class postPage extends Component {
                           borderRadius: "50%",
                           marginRight: "15px"
                         }}
-                        src={this.state.post.userImage}
+                        src={userImageSrc}
                       />
                       <TextField
                         onChange={this.setTextValue}
@@ -347,4 +349,5 @@ class postPage extends Component {
   }
 }
 
+postPage.contextType = LoginContext;
 export default withStyles(styles)(postPage); //withStyles 덕분에 firstDiv가 구별된다.

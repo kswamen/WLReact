@@ -80,12 +80,13 @@ class Comment extends React.Component {
     }
 
     addComment = (parentNum) => {
+        let context = this.context;
         const url = "/api/addComment/";
         const formData = new FormData();
 
-        formData.append("writer", this.props.post.writer)
-        formData.append("ID", this.props.post.ID)
-        formData.append("userImage", this.props.post.userImage)
+        formData.append("writer", context.userName)
+        formData.append("ID", context.userID)
+        formData.append("userImage", context.userImageSrc)
         formData.append("postNum", this.props.post.num)
         formData.append("content", this.state.textValue);
 
@@ -194,66 +195,69 @@ class Comment extends React.Component {
                                         }
                                     </div>
                                 </div>
-                                {(!isLoggedIn || (userID != this.props.data.ID)) ? (
-                                    ""
-                                ) : (
-                                        <div style={{ marginLeft: "10px", marginRight: "10px", height: "100%", display: "flex", flexDirection: "column", justifyContent: "space-around", alignItems: "center" }}>
+                                <div style={{ marginLeft: "10px", marginRight: "10px", height: "100%", display: "flex", flexDirection: "column", justifyContent: "space-around", alignItems: "center" }}>
 
-                                            <Button variant="contained"
-                                                color="primary"
-                                                onClick={() => { this.handleOpen(this.props.data.num) }}
-                                                startIcon={<CloudUploadIcon />} style={{ height: "60px" }}>
-                                                댓글 달기
+                                    {!isLoggedIn ? (
+                                        ""
+                                    ) : (<>
+
+                                        <Button variant="contained"
+                                            color="primary"
+                                            onClick={() => { this.handleOpen(this.props.data.num) }}
+                                            startIcon={<CloudUploadIcon />} style={{ height: "60px" }}>
+                                            댓글 달기
                                 </Button>
 
-                                            <Dialog id='commentDlg' onClose={() => { this.handleClose(); }}
-                                                open={this.state.commentDlgOpen} fullWidth={true} maxWidth='md'>
-                                                <DialogTitle onClose={() => { this.handleClose() }}>댓글 달기</DialogTitle>
-                                                <DialogContent>
-                                                    <TextField
-                                                        onChange={this.setTextValue}
-                                                        style={{
-                                                            width: "100%"
-                                                        }}
-                                                        id="nestedCommentContent"
-                                                        label="Multiline"
-                                                        multiline
-                                                        rows={3}
-                                                        variant="filled"
-                                                        label="여기에 댓글을 입력하세요."
-                                                    />
-                                                </DialogContent>
-                                                <DialogActions>
-                                                    <Button
-                                                        variant="contained"
-                                                        color="primary"
-                                                        onClick={(e) => {
-                                                            e.preventDefault(); this.addComment(this.props.data.num); this.handleClose();
-                                                        }}
-                                                    >
-                                                        댓글 추가
+                                        <Dialog id='commentDlg' onClose={() => { this.handleClose(); }}
+                                            open={this.state.commentDlgOpen} fullWidth={true} maxWidth='md'>
+                                            <DialogTitle onClose={() => { this.handleClose() }}>댓글 달기</DialogTitle>
+                                            <DialogContent>
+                                                <TextField
+                                                    onChange={this.setTextValue}
+                                                    style={{
+                                                        width: "100%"
+                                                    }}
+                                                    id="nestedCommentContent"
+                                                    label="Multiline"
+                                                    multiline
+                                                    rows={3}
+                                                    variant="filled"
+                                                    label="여기에 댓글을 입력하세요."
+                                                />
+                                            </DialogContent>
+                                            <DialogActions>
+                                                <Button
+                                                    variant="contained"
+                                                    color="primary"
+                                                    onClick={(e) => {
+                                                        e.preventDefault(); this.addComment(this.props.data.num); this.handleClose();
+                                                    }}
+                                                >
+                                                    댓글 추가
                               </Button>
-                                                    <Button
-                                                        variant="outlined"
-                                                        color="primary"
-                                                        onClick={() => { this.handleClose() }}
-                                                    >
-                                                        닫기
+                                                <Button
+                                                    variant="outlined"
+                                                    color="primary"
+                                                    onClick={() => { this.handleClose() }}
+                                                >
+                                                    닫기
                               </Button>
-                                                </DialogActions>
-                                            </Dialog>
+                                            </DialogActions>
+                                        </Dialog>
 
-
-                                            <Button variant="contained"
-                                                color="secondary"
-                                                onClick={(e) => { e.preventDefault(); this.delComment(this.props.data.num) }}
-                                                startIcon={<DeleteIcon />} style={{ height: "60px" }}>
-                                                삭제하기
-                                </Button>
-
-
-                                        </div>
-                                    )}
+                                        {userID != this.props.data.ID ? <> </> :
+                                            <>
+                                                <Button variant="contained"
+                                                    color="secondary"
+                                                    onClick={(e) => { e.preventDefault(); this.delComment(this.props.data.num) }}
+                                                    startIcon={<DeleteIcon />} style={{ height: "60px" }}>
+                                                    삭제하기
+                                        </Button>
+                                            </>
+                                        }
+                                    </>
+                                        )}
+                                </div>
                             </div>
                             {this.state.isopen == false ? <> </> :
                                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
@@ -274,4 +278,5 @@ class Comment extends React.Component {
     }
 }
 
+Comment.contextType = LoginContext;
 export default withStyles(styles)(Comment);
