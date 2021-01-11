@@ -110,7 +110,7 @@ class BBSPostCreate extends Component {
           formData.append("image", file);
 
           fetch(
-            "https://api.imgbb.com/1/upload?key=d36eb6591370ae7f9089d85875e56b22",
+            "/api/getImgURL",
             {
               method: "POST",
               body: formData
@@ -119,7 +119,7 @@ class BBSPostCreate extends Component {
             .then(response => response.json())
             .then(result => {
               console.log(result);
-              resolve(result.data.url);
+              resolve(result.url);
             })
             .catch(error => {
               reject("Upload failed");

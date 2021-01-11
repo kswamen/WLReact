@@ -5,6 +5,7 @@ const connection = require('./ConnectDB.js')
 const fs = require("fs");
 
 const bodyParser = require("body-parser");
+const { url } = require('inspector');
 const app = express.Router();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -78,6 +79,7 @@ app.delete("/deleteComment/:commentNum", (req, res) => {
 });
 
 
+
 app.post("/addComment", upload.single("image"), (req, res) => {
     let sql = "insert into comments(ID, userImage, postNum, content, writer, parentNum) values (?, ?, ?, ?, ?, ?)";
 
@@ -102,6 +104,16 @@ app.post("/addComment", upload.single("image"), (req, res) => {
     });
 });
 
+app.post("/getImgURL", upload.single("image"), (req, res) => {
+    let url = '/api/getImg/' + req.file.filename;
+    res.json({
+        url: url
+    });
+})
+app.get("/getImg/:ImgURL", (req, res) => {
+    res.sendFile("./upload/" + req.params.ImgURL, { root: '.' })
+})
+
 app.post("/posts", upload.single("image"), (req, res) => {
     let sql =
         "insert into posts(image, title, contents, writer, ID, userImage) values (?, ?, ?, ?, ?, ?)";
@@ -112,6 +124,7 @@ app.post("/posts", upload.single("image"), (req, res) => {
     let ID = req.body.ID;
     let userImage = req.body.userImage;
     let params = [image, title, contents, writer, ID, userImage];
+
 
     connection.query(sql, params, (err, rows, fields) => {
         res.send(rows);
