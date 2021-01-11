@@ -45,13 +45,6 @@ class mainPage extends Component {
     }, 2000);
   }
 
-  click = () => {
-    return (
-      <Button>
-        124124124
-      </Button>
-    )
-  }
 
   render() {
     return (

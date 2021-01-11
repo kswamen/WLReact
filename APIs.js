@@ -79,8 +79,7 @@ app.delete("/deleteComment/:commentNum", (req, res) => {
 });
 
 
-
-app.post("/addComment", upload.single("image"), (req, res) => {
+app.post("/addComment", upload.single('userImage'), (req, res) => {
     let sql = "insert into comments(ID, userImage, postNum, content, writer, parentNum) values (?, ?, ?, ?, ?, ?)";
 
     let userImage = req.body.userImage;
@@ -104,7 +103,7 @@ app.post("/addComment", upload.single("image"), (req, res) => {
     });
 });
 
-app.post("/getImgURL", upload.single("image"), (req, res) => {
+app.post("/getImgURL", upload.single('image'), (req, res) => {
     let url = '/api/getImg/' + req.file.filename;
     res.json({
         url: url

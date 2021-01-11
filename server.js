@@ -11,6 +11,11 @@ server = app.listen(port, function () {
   console.log(`Listening to port ${port}`);
 });
 
+app.post("/test", (req, res) => {
+  console.log('requested')
+  res.send("success")
+})
+
 app.use("/api", APIrouter)
 
 async function getNewsAsync() {
