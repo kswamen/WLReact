@@ -217,6 +217,7 @@ class BulletinBoardMain extends React.Component {
                     <StyledTableCell align="center">
                       <img
                         style={{
+                          borderRadius: "50%",
                           maxHeight: "15vh",
                         }}
                         src={row.image}

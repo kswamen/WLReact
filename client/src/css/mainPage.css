@@ -2,6 +2,7 @@
     height: 100vh;
     display: flex;
     justify-content: center;
+    align-items: center;
     background-image: url(../image/bg1.jpeg);
     background-position: center;
     background-size: cover;
@@ -12,7 +13,6 @@
     height: 100vh;
     display: flex;
     justify-content: center;
-    align-items: center;
     background-image: url(../image/bg2.jpg);
     background-position: center;
     background-size: cover;

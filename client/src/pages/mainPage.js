@@ -1,19 +1,10 @@
 import React, { Component } from "react";
-import { withStyles } from "@material-ui/core/styles";
 import NewsCarousel from "../components/NewsCarousel";
+import PatientsTable from "../components/PatientsTable";
 import bg1 from "../image/bg1.jpeg";
-import bg2 from "../image/bg2.jpg";
-import bg3 from "../image/bg3.jpg";
 import Appbar from "../components/Appbar";
-import logo from "../image/mask.png";
-
-import Typography from "@material-ui/core/Typography";
-import Button from "@material-ui/core/Button";
-
 import "../css/mainPage.css";
 import LoadingScreen from "react-loading-screen";
-
-import { LoginContext } from "../components/LoginContext";
 
 import { post } from "axios";
 
@@ -51,12 +42,12 @@ class mainPage extends Component {
       <>
         <Appbar />
         <div id="section1" className='firstDiv'>
-          <NewsCarousel />
+          <PatientsTable />
         </div>
         <div id="section2" className='secondDiv'>
+          <NewsCarousel />
         </div>
-        <div id="section3" className='thirdDiv'>
-        </div>
+
       </>
     );
   }

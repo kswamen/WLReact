@@ -100,7 +100,7 @@ class Appbar extends React.Component {
                           style={{ color: "#ffffff", padding: "15px" }}
                           variant="h5"
                         >
-                          News
+                          Total Patients
                     </Typography>
                       </ScrollLink>
                     </Button>
@@ -116,29 +116,11 @@ class Appbar extends React.Component {
                           style={{ color: "#ffffff", padding: "15px" }}
                           variant="h5"
                         >
-                          Products
+                          News
                     </Typography>
                       </ScrollLink>
                     </Button>
-                    <Button color="default">
-                      <ScrollLink
-                        activeClass="active"
-                        to="section3"
-                        spy={true}
-                        smooth={true}
-                        duration={500}
-                      >
-                        <Typography
-                          style={{
-                            color: "#ffffff",
-                            padding: "15px",
-                          }}
-                          variant="h5"
-                        >
-                          Total Patients
-                    </Typography>
-                      </ScrollLink>
-                    </Button>
+
 
                     <Button href="/BBS" color="default">
                       <Typography
