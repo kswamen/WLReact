@@ -14,7 +14,9 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Divider from '@material-ui/core/Divider';
+import TextField from '@material-ui/core/TextField';
 import Typography from "@material-ui/core/Typography";
+import NumberFormat from 'react-number-format';
 
 
 const styles = (theme) => ({
@@ -64,6 +66,9 @@ class PatientsTable extends React.Component {
         }
     }
 
+    thousandSeperator = (num) => {
+        return num.toLocaleString();
+    }
 
     render() {
         const { classes } = this.props;
@@ -97,10 +102,10 @@ class PatientsTable extends React.Component {
                                     {'누적'}
                                 </StyledTableCell>
                                 <StyledTableCell style={{ fontSize: '30px' }} align="center" component="th" scope="row">
-                                    {'124124'}
+                                    {this.thousandSeperator(1231234) + ' 명'}
                                 </StyledTableCell>
                                 <StyledTableCell align="center" component="th" scope="row">
-                                    {'124124'}
+
                                 </StyledTableCell>
                                 <StyledTableCell align="center" component="th" scope="row">
                                     {'124124'}
