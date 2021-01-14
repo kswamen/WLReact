@@ -5,6 +5,7 @@ const port = process.env.PORT || 5000;
 const cron = require("node-cron");
 
 const { getNewestNews } = require("./crawlNewestNews.js");
+const { getPatientsInfo } = require("./crawlPatientsInfo.js");
 const APIrouter = require("./APIs.js")
 
 server = app.listen(port, function () {
@@ -22,8 +23,13 @@ async function getNewsAsync() {
   const data = await getNewestNews();
 }
 
-cron.schedule("*/10 * * * *", async () => {
-  console.log("running a task every one minutes");
+async function getPatientsInfoAsync() {
+  const data = await getPatientsInfo();
+}
+
+cron.schedule("*/30 * * * *", async () => {
+  console.log("Tasks ran every one minute");
+  await getPatientsInfoAsync();
   await getNewsAsync();
 });
 

@@ -14,6 +14,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Divider from '@material-ui/core/Divider';
+import { post } from "axios";
 import TextField from '@material-ui/core/TextField';
 import Typography from "@material-ui/core/Typography";
 import NumberFormat from 'react-number-format';
@@ -58,12 +59,47 @@ class PatientsTable extends React.Component {
         super(props);
 
         this.state = {
+            tableData: [],
             patientsData: [
                 { argument: '01.06', value: 838 },
                 { argument: '01.07', value: 868 },
                 { argument: '01.11', value: 451 },
             ]
         }
+    }
+
+    componentWillMount() {
+        this.callApi().then((res) => {
+            this.setState({
+                tableData: res[0].patientsTableInfo,
+            });
+            console.log(this.state.tableData.confirmed.totalSum)
+        });
+    }
+
+    callApi = async () => {
+        const response = await fetch("/api/patientsInfo");
+        const body = await response.json();
+        return body;
+    };
+
+    sendProcess = async () => {
+        var url = 'http://openapi.data.go.kr/openapi/service/rest/Covid19/getCovid19InfStateJson';
+        var queryParams = '?' + encodeURIComponent('ServiceKey') + '=serviceKEy'; /* Service Key*/
+        queryParams += '&' + encodeURIComponent('pageNo') + '=' + encodeURIComponent('1'); /* */
+        queryParams += '&' + encodeURIComponent('numOfRows') + '=' + encodeURIComponent('10'); /* */
+        queryParams += '&' + encodeURIComponent('startCreateDt') + '=' + encodeURIComponent('20200310'); /* */
+        queryParams += '&' + encodeURIComponent('endCreateDt') + '=' + encodeURIComponent('20200315'); /* */
+
+        post({
+            url: url + queryParams,
+            method: 'GET'
+        }, function (error, response, body) {
+            console.log('Status', response.statusCode);
+            console.log('Headers', JSON.stringify(response.headers));
+            console.log('Reponse received', body);
+        });
+
     }
 
     thousandSeperator = (num) => {
@@ -102,7 +138,7 @@ class PatientsTable extends React.Component {
                                     {'누적'}
                                 </StyledTableCell>
                                 <StyledTableCell style={{ fontSize: '30px' }} align="center" component="th" scope="row">
-                                    {this.thousandSeperator(1231234) + ' 명'}
+
                                 </StyledTableCell>
                                 <StyledTableCell align="center" component="th" scope="row">
 

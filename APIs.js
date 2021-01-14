@@ -12,10 +12,15 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use("/image", express.static("./upload"));
 
 const newsJSON = fs.readFileSync("./newestNewsData.json");
+const patientsJSON = fs.readFileSync("./patientsInfo.json");
 
 app.get("/news", async (req, res) => {
     res.send(newsJSON);
 });
+
+app.get("/patientsInfo", async (req, res) => {
+    res.send(patientsJSON);
+})
 
 app.get("/customers", (req, res) => {
     connection.query(
