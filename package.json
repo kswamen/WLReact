@@ -23,7 +23,9 @@
     "react-moment": "^0.9.7",
     "react-scroll": "^1.8.0",
     "react-typing-animation": "^1.6.2",
-    "socket.io": "^2.3.0"
+    "request": "2.88.2",
+    "socket.io": "^2.3.0",
+    "xml-js": "1.6.11"
   },
   "devDependencies": {
     "concurrently": "4.1.2",

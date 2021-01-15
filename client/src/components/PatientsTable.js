@@ -92,11 +92,9 @@ class PatientsTable extends React.Component {
 
     componentWillMount() {
         this.callApi().then((res) => {
-            console.log(this.state.tableData.confirmed.totalSum)
             this.setState({
                 tableData: res[0].patientsTableInfo,
             });
-            console.log(this.state.tableData.confirmed.totalSum)
         });
     }
 
@@ -106,24 +104,6 @@ class PatientsTable extends React.Component {
         return body;
     };
 
-    sendProcess = async () => {
-        var url = 'http://openapi.data.go.kr/openapi/service/rest/Covid19/getCovid19InfStateJson';
-        var queryParams = '?' + encodeURIComponent('ServiceKey') + '=serviceKEy'; /* Service Key*/
-        queryParams += '&' + encodeURIComponent('pageNo') + '=' + encodeURIComponent('1'); /* */
-        queryParams += '&' + encodeURIComponent('numOfRows') + '=' + encodeURIComponent('10'); /* */
-        queryParams += '&' + encodeURIComponent('startCreateDt') + '=' + encodeURIComponent('20200310'); /* */
-        queryParams += '&' + encodeURIComponent('endCreateDt') + '=' + encodeURIComponent('20200315'); /* */
-
-        post({
-            url: url + queryParams,
-            method: 'GET'
-        }, function (error, response, body) {
-            console.log('Status', response.statusCode);
-            console.log('Headers', JSON.stringify(response.headers));
-            console.log('Reponse received', body);
-        });
-
-    }
 
     thousandSeperator = (num) => {
         return num.toLocaleString();
@@ -156,7 +136,7 @@ class PatientsTable extends React.Component {
                         </TableHead>
                         <TableBody>
                             <StyledTableRow>
-                                <StyledTableCell style={{ fontSize: '25px', color: 'rgba(47,47,79,1)' }}
+                                <StyledTableCell style={{ fontSize: '25px' }}
                                     align="center" component="th" scope="row">
                                     {'누적'}
                                 </StyledTableCell>
@@ -174,7 +154,7 @@ class PatientsTable extends React.Component {
                                 </StyledTableCell>
                             </StyledTableRow>
                             <StyledTableRow>
-                                <StyledTableCell style={{ fontSize: '25px', color: 'rgba(47,47,79,1)' }} rowSpan={2}
+                                <StyledTableCell style={{ fontSize: '25px' }} rowSpan={2}
                                     align="center" component="th" scope="row">
                                     {'전일 대비'}
                                 </StyledTableCell>

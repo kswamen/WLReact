@@ -1,6 +1,8 @@
 const axios = require("axios");
 const cheerio = require("cheerio");
 const fs = require("fs");
+const request = require('request');
+const convert = require('xml-js');
 
 let html = "";
 
@@ -20,6 +22,7 @@ async function getPatientsInfo() {
     const dataArr = [];
     const dataPath = "./patientsInfo.json";
     const $ = cheerio.load(html.data);
+    var patientsGraphInfo = []
 
     $(".wrap.nj #form1 .container #content .caseTable").each(async function (
         index,
@@ -58,9 +61,36 @@ async function getPatientsInfo() {
                 gone: gone,
             }
         })
+    });
 
-        fs.writeFileSync(dataPath, JSON.stringify(dataArr))
+    var url = 'http://openapi.data.go.kr/openapi/service/rest/Covid19/getCovid19InfStateJson';
+    var queryParams = '?' + encodeURIComponent('ServiceKey') + '=2jtiuz21m0PRlJxmRrmuOYL8JIEKfdeDMx8Z4JTaec5gzi0NK02NcxxtCLXscfo35ySS72ZG6H7MY87Rl65sjA%3D%3D'; /* Service Key*/
+    queryParams += '&' + encodeURIComponent('pageNo') + '=' + encodeURIComponent('1'); /* */
+    queryParams += '&' + encodeURIComponent('numOfRows') + '=' + encodeURIComponent('10'); /* */
+    queryParams += '&' + encodeURIComponent('startCreateDt') + '=' + encodeURIComponent('20210110'); /* */
+    queryParams += '&' + encodeURIComponent('endCreateDt') + '=' + encodeURIComponent('20210115'); /* */
+
+    axios({
+        method: 'get',
+        url: url + queryParams
+    }).then((response) => {
+        result = response.data.response.body.items.item
+        for (idx in result) {
+            if (idx == result.length - 1)
+                break;
+            patientsGraphInfo.push({
+                createdDate: result[idx].createDt.split(' ')[0],
+                newConfirmed: result[idx].decideCnt - result[parseInt(idx) + 1].decideCnt
+            })
+        }
+        console.log(patientsGraphInfo);
+        dataArr.push({
+            patientsGraphInfo
+        })
+        fs.writeFileSync(dataPath, JSON.stringify(dataArr));
     });
 }
+
+
 
 module.exports = { getPatientsInfo };

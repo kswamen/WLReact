@@ -27,7 +27,9 @@ async function getPatientsInfoAsync() {
   const data = await getPatientsInfo();
 }
 
-cron.schedule("*/30 * * * *", async () => {
+//getPatientsInfoAsync();
+
+cron.schedule("*/5 * * * *", async () => {
   console.log("Tasks ran every one minute");
   await getPatientsInfoAsync();
   await getNewsAsync();

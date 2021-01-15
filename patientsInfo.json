@@ -22,5 +22,29 @@
                 "yesterdayCompare": "+ 22"
             }
         }
+    },
+    {
+        "patientsGraphInfo": [
+            {
+                "createdDate": "2021-01-15",
+                "newConfirmed": 513
+            },
+            {
+                "createdDate": "2021-01-14",
+                "newConfirmed": 524
+            },
+            {
+                "createdDate": "2021-01-13",
+                "newConfirmed": 554
+            },
+            {
+                "createdDate": "2021-01-12",
+                "newConfirmed": 536
+            },
+            {
+                "createdDate": "2021-01-11",
+                "newConfirmed": 451
+            }
+        ]
     }
 ]
