@@ -44,6 +44,14 @@
             {
                 "createdDate": "2021-01-11",
                 "newConfirmed": 451
+            },
+            {
+                "createdDate": "2021-01-10",
+                "newConfirmed": 664
+            },
+            {
+                "createdDate": "2021-01-09",
+                "newConfirmed": 641
             }
         ]
     }

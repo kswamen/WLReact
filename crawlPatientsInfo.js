@@ -14,6 +14,29 @@ async function getHtml() {
     }
 }
 
+function getDateStr(myDate) {
+    var year = myDate.getFullYear();
+    var month = (myDate.getMonth() + 1);
+    var day = myDate.getDate();
+
+    month = (month < 10) ? "0" + String(month) : month;
+    day = (day < 10) ? "0" + String(day) : day;
+
+    return year + month + day;
+}
+
+function today() {
+    var d = new Date();
+    return getDateStr(d);
+}
+
+function lastWeek() {
+    var d = new Date();
+    var dayOfMonth = d.getDate();
+    d.setDate(dayOfMonth - 7);
+    return getDateStr(d);
+}
+
 async function getPatientsInfo() {
     if (!html) {
         html = await getHtml();
@@ -67,8 +90,8 @@ async function getPatientsInfo() {
     var queryParams = '?' + encodeURIComponent('ServiceKey') + '=2jtiuz21m0PRlJxmRrmuOYL8JIEKfdeDMx8Z4JTaec5gzi0NK02NcxxtCLXscfo35ySS72ZG6H7MY87Rl65sjA%3D%3D'; /* Service Key*/
     queryParams += '&' + encodeURIComponent('pageNo') + '=' + encodeURIComponent('1'); /* */
     queryParams += '&' + encodeURIComponent('numOfRows') + '=' + encodeURIComponent('10'); /* */
-    queryParams += '&' + encodeURIComponent('startCreateDt') + '=' + encodeURIComponent('20210110'); /* */
-    queryParams += '&' + encodeURIComponent('endCreateDt') + '=' + encodeURIComponent('20210115'); /* */
+    queryParams += '&' + encodeURIComponent('startCreateDt') + '=' + encodeURIComponent(lastWeek()); /* */
+    queryParams += '&' + encodeURIComponent('endCreateDt') + '=' + encodeURIComponent(today()); /* */
 
     axios({
         method: 'get',
@@ -83,7 +106,6 @@ async function getPatientsInfo() {
                 newConfirmed: result[idx].decideCnt - result[parseInt(idx) + 1].decideCnt
             })
         }
-        console.log(patientsGraphInfo);
         dataArr.push({
             patientsGraphInfo
         })
