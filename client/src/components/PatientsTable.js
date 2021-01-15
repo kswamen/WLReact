@@ -82,19 +82,18 @@ class PatientsTable extends React.Component {
                     yesterdayCompare: 0
                 }
             },
-            patientsData: [
-                { argument: '01.06', value: 838 },
-                { argument: '01.07', value: 868 },
-                { argument: '01.11', value: 451 },
-            ]
+            graphData: []
         }
     }
 
     componentWillMount() {
         this.callApi().then((res) => {
+            console.log(this.state.graphData)
             this.setState({
                 tableData: res[0].patientsTableInfo,
+                graphData: res[1].patientsGraphInfo.reverse(),
             });
+            console.log(this.state.graphData)
         });
     }
 
@@ -193,12 +192,11 @@ class PatientsTable extends React.Component {
                     <Chart
                         style={{ width: '80vw' }}
                         height={300}
-                        data={this.state.patientsData}
+                        data={this.state.graphData}
                     >
                         <ArgumentAxis />
                         <ValueAxis />
-
-                        <LineSeries valueField="value" argumentField="argument" />
+                        <LineSeries valueField="newConfirmed" argumentField="createdDate" />
                     </Chart>
                 </Paper>
             </div >
