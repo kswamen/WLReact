@@ -1,13 +1,9 @@
 import React from "react";
-import Slider from "react-slick";
-import { post } from "axios";
 import { withStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
-import Container from "@material-ui/core/Container";
 
 import DeleteIcon from '@material-ui/icons/Delete';
-import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 
 import { LoginContext } from "./LoginContext";
 

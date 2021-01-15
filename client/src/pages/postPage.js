@@ -1,16 +1,10 @@
 import React, { Component, useState } from "react";
 import { withStyles } from "@material-ui/core/styles";
-import { post } from "axios";
-import ReactQuill from "react-quill";
 import BBSPost from "../components/BBSPost";
-import "react-quill/dist/quill.snow.css";
 import Appbar from "../components/Appbar";
-import Container from "@material-ui/core/Container";
-import Typography from "@material-ui/core/Typography";
-import bg1 from "../image/bg1.jpeg";
-import Button from "@material-ui/core/Button";
 
 import "../css/BBSPost.css";
+import "react-quill/dist/quill.snow.css";
 
 const styles = (theme) => ({});
 

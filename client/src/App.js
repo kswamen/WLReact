@@ -1,12 +1,10 @@
 import React, { Component } from "react";
-import Appbar from "./components/Appbar";
 import { withStyles } from "@material-ui/core/styles";
 import { Router, Switch, Route, withRouter } from "react-router-dom";
 import MainPage from "./pages/mainPage";
 import bulletinBoard from "./pages/bulletinBoard";
 import createPostPage from "./pages/createPostPage";
 import postPage from "./pages/postPage";
-import history from "./components/History";
 
 import { LoginContext } from "./components/LoginContext";
 

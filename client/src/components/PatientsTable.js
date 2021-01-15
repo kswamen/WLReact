@@ -14,10 +14,6 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Divider from '@material-ui/core/Divider';
-import { post } from "axios";
-import TextField from '@material-ui/core/TextField';
-import Typography from "@material-ui/core/Typography";
-import NumberFormat from 'react-number-format';
 
 
 const styles = (theme) => ({

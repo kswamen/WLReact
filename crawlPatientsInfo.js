@@ -1,8 +1,8 @@
 const axios = require("axios");
 const cheerio = require("cheerio");
 const fs = require("fs");
-const request = require('request');
-const convert = require('xml-js');
+var keyData = fs.readFileSync("./secretkey.json");
+const key = JSON.parse(keyData);
 
 let html = "";
 
@@ -87,7 +87,7 @@ async function getPatientsInfo() {
     });
 
     var url = 'http://openapi.data.go.kr/openapi/service/rest/Covid19/getCovid19InfStateJson';
-    var queryParams = '?' + encodeURIComponent('ServiceKey') + '=2jtiuz21m0PRlJxmRrmuOYL8JIEKfdeDMx8Z4JTaec5gzi0NK02NcxxtCLXscfo35ySS72ZG6H7MY87Rl65sjA%3D%3D'; /* Service Key*/
+    var queryParams = '?' + encodeURIComponent('ServiceKey') + '=' + key.coronaAPIKey; /* Service Key*/
     queryParams += '&' + encodeURIComponent('pageNo') + '=' + encodeURIComponent('1'); /* */
     queryParams += '&' + encodeURIComponent('numOfRows') + '=' + encodeURIComponent('10'); /* */
     queryParams += '&' + encodeURIComponent('startCreateDt') + '=' + encodeURIComponent(lastWeek()); /* */
