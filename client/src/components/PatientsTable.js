@@ -59,7 +59,29 @@ class PatientsTable extends React.Component {
         super(props);
 
         this.state = {
-            tableData: [],
+            tableData:
+            {
+                confirmed: {
+                    totalSum: 0,
+                    yesterdayCompare: {
+                        subTotal: 0,
+                        domesticOcurrence: 0,
+                        overseasInflow: 0
+                    }
+                },
+                released: {
+                    totalSum: 0,
+                    yesterdayCompare: 0
+                },
+                quarantine: {
+                    totalSum: 0,
+                    yesterdayCompare: 0,
+                },
+                gone: {
+                    totalSum: 0,
+                    yesterdayCompare: 0
+                }
+            },
             patientsData: [
                 { argument: '01.06', value: 838 },
                 { argument: '01.07', value: 868 },
@@ -70,6 +92,7 @@ class PatientsTable extends React.Component {
 
     componentWillMount() {
         this.callApi().then((res) => {
+            console.log(this.state.tableData.confirmed.totalSum)
             this.setState({
                 tableData: res[0].patientsTableInfo,
             });
@@ -133,25 +156,25 @@ class PatientsTable extends React.Component {
                         </TableHead>
                         <TableBody>
                             <StyledTableRow>
-                                <StyledTableCell style={{ fontSize: '20px', color: 'rgba(47,47,79,1)' }}
+                                <StyledTableCell style={{ fontSize: '25px', color: 'rgba(47,47,79,1)' }}
                                     align="center" component="th" scope="row">
                                     {'누적'}
                                 </StyledTableCell>
                                 <StyledTableCell style={{ fontSize: '30px' }} align="center" component="th" scope="row">
-
+                                    {this.state.tableData.confirmed.totalSum + ' 명'}
                                 </StyledTableCell>
                                 <StyledTableCell align="center" component="th" scope="row">
-
+                                    {this.state.tableData.released.totalSum}
                                 </StyledTableCell>
                                 <StyledTableCell align="center" component="th" scope="row">
-                                    {'124124'}
+                                    {this.state.tableData.quarantine.totalSum}
                                 </StyledTableCell>
                                 <StyledTableCell align="center" component="th" scope="row">
-                                    {'124124'}
+                                    {this.state.tableData.gone.totalSum}
                                 </StyledTableCell>
                             </StyledTableRow>
                             <StyledTableRow>
-                                <StyledTableCell style={{ fontSize: '20px', color: 'rgba(47,47,79,1)' }} rowSpan={2}
+                                <StyledTableCell style={{ fontSize: '25px', color: 'rgba(47,47,79,1)' }} rowSpan={2}
                                     align="center" component="th" scope="row">
                                     {'전일 대비'}
                                 </StyledTableCell>
@@ -164,23 +187,23 @@ class PatientsTable extends React.Component {
                                     {'해외유입'}
                                 </StyledTableCell>
                                 <StyledTableCell rowSpan={2} align="center" component="th" scope="row">
-                                    {'124124'}
+                                    {this.state.tableData.released.yesterdayCompare}
                                 </StyledTableCell>
                                 <StyledTableCell rowSpan={2} align="center" component="th" scope="row">
-                                    {'124124'}
+                                    {this.state.tableData.quarantine.yesterdayCompare}
                                 </StyledTableCell>
                                 <StyledTableCell rowSpan={2} align="center" component="th" scope="row">
-                                    {'124124'}
+                                    {this.state.tableData.gone.yesterdayCompare}
                                 </StyledTableCell>
                             </StyledTableRow>
                             <StyledTableRow>
                                 <StyledTableCell style={{ color: 'red', display: 'flex', justifyContent: 'space-around' }}
                                     align="center" component="th" scope="row">
-                                    {'13'}
+                                    {this.state.tableData.confirmed.yesterdayCompare.subTotal}
                                     <Divider orientation='vertical' flexItem />
-                                    {'13'}
+                                    {this.state.tableData.confirmed.yesterdayCompare.domesticOcurrence}
                                     <Divider orientation='vertical' flexItem />
-                                    {'13'}
+                                    {this.state.tableData.confirmed.yesterdayCompare.overseasInflow}
                                 </StyledTableCell>
                             </StyledTableRow>
                         </TableBody>

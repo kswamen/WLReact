@@ -2,24 +2,24 @@
     {
         "patientsTableInfo": {
             "confirmed": {
-                "totalSum": "70,728",
+                "totalSum": "71,241",
                 "yesterdayCompare": {
-                    "subTotal": "+ 524",
-                    "domesticOcurrence": "496",
-                    "overseasInflow": "28"
+                    "subTotal": "+ 513",
+                    "domesticOcurrence": "484",
+                    "overseasInflow": "29"
                 }
             },
             "released": {
-                "totalSum": "55,772",
-                "yesterdayCompare": "+ 1,136"
+                "totalSum": "56,536",
+                "yesterdayCompare": "+ 764"
             },
             "quarantine": {
-                "totalSum": "13,761",
-                "yesterdayCompare": "- 622"
+                "totalSum": "13,488",
+                "yesterdayCompare": "- 273"
             },
             "gone": {
-                "totalSum": "1,195",
-                "yesterdayCompare": "+ 10"
+                "totalSum": "1,217",
+                "yesterdayCompare": "+ 22"
             }
         }
     }
