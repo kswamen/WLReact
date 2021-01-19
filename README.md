@@ -13,6 +13,9 @@ yarn dev
 
 ```
 
+## [동작 영상 링크](https://blog.naver.com/kswamen/222213178079)
+
+
 # 참고할 만한 기능:
 
 ### Web Crawling:  연합뉴스 뉴스 코너를 크롤링해 캐러셀 생성
