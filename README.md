@@ -18,6 +18,8 @@ yarn dev
 
 # 참고할 만한 기능:
 
+### 코로나 19 발생현황 API: 서버측에서 사용
+
 ### Web Crawling:  연합뉴스 뉴스 코너를 크롤링해 캐러셀 생성
 
 [연합뉴스 뉴스 코너](https://www.yna.co.kr/news)
