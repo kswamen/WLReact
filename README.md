@@ -13,7 +13,7 @@ yarn dev
 
 ```
 
-## [동작 영상 링크](https://blog.naver.com/kswamen/222213178079)
+# [동작 영상 링크](https://blog.naver.com/kswamen/222213178079)
 
 
 # 참고할 만한 기능:
