@@ -20,6 +20,7 @@ class App extends Component {
         userImageSrc: res.profileObj.imageUrl,
         userID: res.googleId,
       });
+      console.log(this.state.userName)
     };
     this.setLogout = (res) => {
       this.setState({

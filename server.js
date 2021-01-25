@@ -17,6 +17,8 @@ app.post("/test", (req, res) => {
   res.send("success")
 })
 
+console.log(process.env.PORT)
+
 app.use("/api", APIrouter)
 
 async function getNewsAsync() {

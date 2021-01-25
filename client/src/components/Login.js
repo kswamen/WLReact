@@ -48,23 +48,23 @@ export default class Login extends React.Component {
             {!isLoggedIn ? (
               ""
             ) : (
-              <Button
-                style={{
-                  width: "50px",
-                  height: "50px",
-                }}
-              >
-                <img
+                <Button
                   style={{
-                    width: "100%",
-                    height: "100%",
-                    borderRadius: "50%",
-                    overflow: "auto",
+                    width: "50px",
+                    height: "50px",
                   }}
-                  src={userImageSrc}
-                />
-              </Button>
-            )}
+                >
+                  <img
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      borderRadius: "50%",
+                      overflow: "auto",
+                    }}
+                    src={userImageSrc}
+                  />
+                </Button>
+              )}
             <Button
               aria-controls="simple-menu"
               aria-haspopup="true"
@@ -89,7 +89,7 @@ export default class Login extends React.Component {
                 <MenuItem onClick={handleClose}>
                   <GoogleLogin
                     clientId={
-                      "310814871301-d992m2477iodmeta9hlpo9jnthjv1gfj.apps.googleusercontent.com"
+                      "236487257759-e0kij4llhdga8ii4d1551vehfp5j4ap8.apps.googleusercontent.com"
                     }
                     onSuccess={setLogin}
                     onFailure={setLogout}
@@ -98,13 +98,13 @@ export default class Login extends React.Component {
                   ></GoogleLogin>
                 </MenuItem>
               ) : (
-                <MenuItem onClick={handleClose}>
-                  <GoogleLogout
-                    buttonText="로그아웃하시겠습니까?"
-                    onLogoutSuccess={setLogout}
-                  ></GoogleLogout>
-                </MenuItem>
-              )}
+                  <MenuItem onClick={handleClose}>
+                    <GoogleLogout
+                      buttonText="로그아웃하시겠습니까?"
+                      onLogoutSuccess={setLogout}
+                    ></GoogleLogout>
+                  </MenuItem>
+                )}
             </Menu>
           </div>
         )}
