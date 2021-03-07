@@ -1,7 +1,5 @@
 # WLReact
 
-### 연습용으로 만든 간단한 웹사이트 예제입니다.
-### 프론트로 React, 백으로 node.js DB로 MariaDB를 사용했습니다.
 ## Simple Website using React and node.js
 
 
@@ -15,7 +13,12 @@ yarn dev
 
 ```
 
+# [동작 영상 링크](https://blog.naver.com/kswamen/222213178079)
+
+
 # 참고할 만한 기능:
+
+### 코로나 19 발생현황 API: 서버측에서 사용
 
 ### Web Crawling:  연합뉴스 뉴스 코너를 크롤링해 캐러셀 생성
 
