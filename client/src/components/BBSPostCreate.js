@@ -110,7 +110,7 @@ class BBSPostCreate extends Component {
           formData.append("image", file);
 
           fetch(
-            "/api/getImgURL",
+            "/img/getImgURL",
             {
               method: "POST",
               body: formData

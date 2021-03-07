@@ -7,6 +7,7 @@ const cron = require("node-cron");
 const { getNewestNews } = require("./crawlNewestNews.js");
 const { getPatientsInfo } = require("./crawlPatientsInfo.js");
 const APIrouter = require("./APIs.js")
+const IMGrouter = require("./IMGAPIs.js")
 
 server = app.listen(port, function () {
   console.log(`Listening to port ${port}`);
@@ -20,6 +21,7 @@ app.post("/test", (req, res) => {
 console.log(process.env.PORT)
 
 app.use("/api", APIrouter)
+app.use("/img", IMGrouter)
 
 async function getNewsAsync() {
   const data = await getNewestNews();
