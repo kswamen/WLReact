@@ -97,7 +97,9 @@ async function getPatientsInfo() {
         method: 'get',
         url: url + queryParams
     }).then((response) => {
+        console.log(response.data)
         result = response.data.response.body.items.item
+
         for (idx in result) {
             if (idx == result.length - 1)
                 break;
@@ -110,7 +112,10 @@ async function getPatientsInfo() {
             patientsGraphInfo
         })
         fs.writeFileSync(dataPath, JSON.stringify(dataArr));
+    }).catch(function (error) {
+        console.error('Error ' + error.message)
     });
+
 }
 
 

@@ -45,5 +45,10 @@
   "homepage": "https://github.com/kswamen/ksw-jsh-coronaGoodsKR#readme",
   "description": "",
   "proxy": "http://localhost:5000/",
-  "secure": false
+  "secure": false,
+  "nodemonConfig": {
+    "ignore": [
+      "*.json"
+    ]
+  }
 }

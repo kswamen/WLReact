@@ -8,36 +8,35 @@ const { getNewestNews } = require("./crawlNewestNews.js");
 const { getPatientsInfo } = require("./crawlPatientsInfo.js");
 const APIrouter = require("./APIs.js")
 const IMGrouter = require("./IMGAPIs.js")
+const fs = require("fs");
 
 server = app.listen(port, function () {
   console.log(`Listening to port ${port}`);
 });
 
-app.post("/test", (req, res) => {
-  console.log('requested')
-  res.send("success")
-})
-
-console.log(process.env.PORT)
-
 app.use("/api", APIrouter)
 app.use("/img", IMGrouter)
 
-async function getNewsAsync() {
-  const data = await getNewestNews();
+async function handleAsync() {
+  try {
+    await getPatientsInfo();
+    const NewsData = await getNewestNews();
+
+  } catch (error) {
+    console.log(error)
+  }
+
+  //return await Promise.all([getPatientsInfo(), getNewestNews()]);
+  //return await Promise.allSettled([getPatientsInfo(), getNewestNews()]);
 }
 
-async function getPatientsInfoAsync() {
-  const data = await getPatientsInfo();
-}
+//getNewsAsync();
+//getPatientsInfo();
 
-//getPatientsInfoAsync();
 
-cron.schedule("*/5 * * * *", async () => {
-  console.log("Tasks ran every one minute");
-  await getPatientsInfoAsync();
-  await getNewsAsync();
+cron.schedule("0 0 */3 * * *", async () => {
+  await handleAsync();
+  console.log("Tasks ran every 3 hour");
 });
-
 
 

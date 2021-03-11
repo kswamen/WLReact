@@ -8,7 +8,7 @@ async function getHtml() {
   try {
     return await axios.get("https://www.yna.co.kr/news");
   } catch (error) {
-
+    console.log(err)
   }
 }
 
