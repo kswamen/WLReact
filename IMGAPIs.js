@@ -13,7 +13,6 @@ app.use("/image", express.static("./upload"));
 
 app.post("/getImgURL", upload.single('image'), (req, res) => {
     let url = '/img/getImg/' + req.file.filename;
-    console.log("well done")
     res.json({
         url: url
     });

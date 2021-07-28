@@ -1,1 +1,58 @@
-[{"patientsTableInfo":{"confirmed":{"totalSum":"94,198","yesterdayCompare":{"subTotal":"+ 465","domesticOcurrence":"444","overseasInflow":"21"}},"released":{"totalSum":"84,675","yesterdayCompare":"+ 363"},"quarantine":{"totalSum":"7,871","yesterdayCompare":"+ 98"},"gone":{"totalSum":"1,652","yesterdayCompare":"+ 4"}}},{"patientsGraphInfo":[{"createdDate":"2021-03-11","newConfirmed":465},{"createdDate":"2021-03-10","newConfirmed":470},{"createdDate":"2021-03-09","newConfirmed":446},{"createdDate":"2021-03-08","newConfirmed":346},{"createdDate":"2021-03-07","newConfirmed":416},{"createdDate":"2021-03-06","newConfirmed":418},{"createdDate":"2021-03-05","newConfirmed":398}]}]
+[
+    {
+        "patientsTableInfo": {
+            "confirmed": {
+                "totalSum": "106,230",
+                "yesterdayCompare": {
+                    "subTotal": "+ 478",
+                    "domesticOcurrence": "460",
+                    "overseasInflow": "18"
+                }
+            },
+            "released": {
+                "totalSum": "97,363",
+                "yesterdayCompare": "+ 463"
+            },
+            "quarantine": {
+                "totalSum": "7,115",
+                "yesterdayCompare": "+ 11"
+            },
+            "gone": {
+                "totalSum": "1,752",
+                "yesterdayCompare": "+ 4"
+            }
+        }
+    },
+    {
+        "patientsGraphInfo": [
+            {
+                "createdDate": "2021-04-06",
+                "newConfirmed": 478
+            },
+            {
+                "createdDate": "2021-04-05",
+                "newConfirmed": 473
+            },
+            {
+                "createdDate": "2021-04-04",
+                "newConfirmed": 543
+            },
+            {
+                "createdDate": "2021-04-03",
+                "newConfirmed": 543
+            },
+            {
+                "createdDate": "2021-04-02",
+                "newConfirmed": 557
+            },
+            {
+                "createdDate": "2021-04-01",
+                "newConfirmed": 551
+            },
+            {
+                "createdDate": "2021-03-31",
+                "newConfirmed": 506
+            }
+        ]
+    }
+]

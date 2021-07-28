@@ -20,19 +20,12 @@ app.use("/img", IMGrouter)
 async function handleAsync() {
   try {
     await getPatientsInfo();
-    const NewsData = await getNewestNews();
+    await getNewestNews();
 
   } catch (error) {
     console.log(error)
   }
-
-  //return await Promise.all([getPatientsInfo(), getNewestNews()]);
-  //return await Promise.allSettled([getPatientsInfo(), getNewestNews()]);
 }
-
-//getNewsAsync();
-//getPatientsInfo();
-
 
 cron.schedule("0 0 */3 * * *", async () => {
   await handleAsync();
